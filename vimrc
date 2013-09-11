@@ -18,7 +18,7 @@ set ruler
 set showcmd
 
 " Show whitespace in a useful fashion.
-set list listchars=trail:-
+set list listchars=tab:\ \ ,trail:-
 
 " When entering a bracket, show its partner.
 set showmatch
