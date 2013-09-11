@@ -25,16 +25,38 @@ confirm_continue () {
     done
 }
 
-for filename in $DIR/*
-do
-    if ! [[ $filename -ef ${BASH_SOURCE[0]} ]]
+link_dot () {
+    local opt= folder=
+    while getopts f opt
+    do
+        case opt in
+            f)  # Linking a folder, not a file
+                folder=yes
+                ;;
+        esac
+    done
+    shift $(( OPTIND - 1 ))
+    local src=$1 dst=$2
+
+    if [[ ! -e $dst ]] || confirm_overwrite "$dst"
     then
-        dotname=.$(basename $filename)
-        if [[ ! -e ~/$dotname ]] || confirm_overwrite ~/"$dotname"
+        echo "Installing $dst"
+        if [[ $folder ]]
         then
-            echo "Installing $dotname"
-            rm -rf ~/"$dotname"
-            ln -s "$filename" ~/"$dotname"
+            rm -rf "$dst"
+        else
+            rm -f "$dst"
         fi
+        ln -s "$src" "$dst"
     fi
-done
+}
+
+if command -v vim >/dev/null
+then
+    if vim --version | grep -qF 'Vi IMproved 7.3' ||
+        confirm_continue "Vim version information not recognized. Continue?"
+    then
+        link_dot "$DIR/vimrc" ~/.vimrc
+        link_dot -f "$DIR/vim" ~/.vim
+    fi
+fi
