@@ -5,10 +5,24 @@ set -eu
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 confirm_overwrite () {
-    read -n1 -p "Overwrite ${1}? [y/n] " rsp
-    echo
-    [[ $rsp == y ]] && return 0
-    return 1
+    local file=$1
+    confirm_continue "Overwrite $file?"
+}
+
+confirm_continue () {
+    local prompt=$1 rsp=
+    while :
+    do
+        read -n1 -p "$prompt [y/n] " rsp
+        echo
+        if [[ $rsp == y ]]
+        then
+            return 0
+        elif [[ $rsp == n ]]
+        then
+            return 1
+        fi
+    done
 }
 
 for filename in $DIR/*
