@@ -42,3 +42,6 @@ syntax enable
 
 " If we open a file called `*.md` or `*.text`, assume it's a Markdown file.
 autocmd BufRead,BufNewFile *.md,*.text set filetype=markdown
+
+" If using the spell checker, we're writing in British English
+set spelllang=en_gb
