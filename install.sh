@@ -1,26 +1,62 @@
 #!/usr/bin/env bash
 
-set -e
+set -eu
 
 DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 confirm_overwrite () {
-    read -n1 -p "Overwrite ${1}? [y/n] " rsp
-    echo
-    [[ $rsp == y ]] && return 0
-    return 1
+    local file=$1
+    confirm_continue "Overwrite $file?"
 }
 
-for filename in $DIR/*
-do
-    if ! [[ $filename -ef ${BASH_SOURCE[0]} ]]
-    then
-        dotname=.$(basename $filename)
-        if [[ ! -e ~/$dotname ]] || confirm_overwrite ~/"$dotname"
+confirm_continue () {
+    local prompt=$1 rsp=
+    while :
+    do
+        read -n1 -p "$prompt [y/n] " rsp
+        echo
+        if [[ $rsp == y ]]
         then
-            echo "Installing $dotname"
-            rm -rf ~/"$dotname"
-            ln -s "$filename" ~/"$dotname"
+            return 0
+        elif [[ $rsp == n ]]
+        then
+            return 1
         fi
+    done
+}
+
+link_dot () {
+    local opt= folder=
+    while getopts f opt
+    do
+        case opt in
+            f)  # Linking a folder, not a file
+                folder=yes
+                ;;
+        esac
+    done
+    shift $(( OPTIND - 1 ))
+    local src=$1 dst=$2
+
+    if [[ ! -e $dst ]] || confirm_overwrite "$dst"
+    then
+        echo "Installing $dst"
+        if [[ $folder ]]
+        then
+            rm -rf "$dst"
+        else
+            rm -f "$dst"
+        fi
+        ln -s "$src" "$dst"
     fi
-done
+}
+
+if command -v vim >/dev/null
+then
+    if vim --version | grep -qF 'Vi IMproved 7.3' ||
+        confirm_continue "Vim version information not recognized. Continue?"
+    then
+        link_dot "$DIR/vimrc" ~/.vimrc
+        link_dot -f "$DIR/vim" ~/.vim
+    fi
+fi
