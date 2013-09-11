@@ -29,7 +29,7 @@ link_dot () {
     local opt= folder=
     while getopts f opt
     do
-        case opt in
+        case $opt in
             f)  # Linking a folder, not a file
                 folder=yes
                 ;;
