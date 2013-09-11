@@ -6,3 +6,6 @@ set softtabstop=4
 " Nonetheless, we may see files with tabs.  The interpreter considers those as
 " being aligned at eight spaces.
 set tabstop=8
+
+" Mark whitespace.
+set list listchars=tab:>\ ,trail:-
