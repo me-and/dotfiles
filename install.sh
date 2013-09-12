@@ -38,7 +38,7 @@ link_dot () {
     shift $(( OPTIND - 1 ))
     local src=$1 dst=$2
 
-    if [[ ! -e $dst ]] || [[ ! $src -ef $dst ]] && confirm_overwrite "$dst"
+    if [[ ! -e $dst ]] || ([[ ! $src -ef $dst ]] && confirm_overwrite "$dst")
     then
         echo "Installing $dst"
         if [[ $folder ]]
