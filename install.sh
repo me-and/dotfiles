@@ -55,3 +55,7 @@ if command -v vim >/dev/null; then
         link_dot -f "$DIR/vim" ~/.vim
     fi
 fi
+
+if command -v startxwin >/dev/null; then
+    link_dot "$DIR/startxwinrc" ~/.startxwinrc
+fi
