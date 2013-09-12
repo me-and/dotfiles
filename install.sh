@@ -24,6 +24,7 @@ confirm_continue () {
 
 link_dot () {
     local opt= folder=
+    OPTIND=1
     while getopts f opt; do
         case $opt in
             f)  # Linking a folder, not a file
