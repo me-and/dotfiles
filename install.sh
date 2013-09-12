@@ -11,15 +11,12 @@ confirm_overwrite () {
 
 confirm_continue () {
     local prompt=$1 rsp=
-    while :
-    do
+    while :; do
         read -n1 -p "$prompt [y/n] " rsp
         echo
-        if [[ $rsp == y ]]
-        then
+        if [[ $rsp == y ]]; then
             return 0
-        elif [[ $rsp == n ]]
-        then
+        elif [[ $rsp == n ]]; then
             return 1
         fi
     done
@@ -27,8 +24,7 @@ confirm_continue () {
 
 link_dot () {
     local opt= folder=
-    while getopts f opt
-    do
+    while getopts f opt; do
         case $opt in
             f)  # Linking a folder, not a file
                 folder=yes
@@ -41,8 +37,7 @@ link_dot () {
     if [[ ! -e $dst ]] || [[ ! $src -ef $dst ]] && confirm_overwrite "$dst"
     then
         echo "Installing $dst"
-        if [[ $folder ]]
-        then
+        if [[ $folder ]]; then
             rm -rf "$dst"
         else
             rm -f "$dst"
@@ -51,8 +46,7 @@ link_dot () {
     fi
 }
 
-if command -v vim >/dev/null
-then
+if command -v vim >/dev/null; then
     if vim --version | grep -qF 'Vi IMproved 7.3' ||
         confirm_continue "Vim version information not recognized. Continue?"
     then
