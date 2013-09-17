@@ -59,3 +59,13 @@ fi
 if command -v startxwin >/dev/null; then
     link_dot "$DIR/startxwinrc" ~/.startxwinrc
 fi
+
+if command -v ctags >/dev/null; then
+    # Check if ctags supports the `--recurse` option; the man page says it's
+    # not supported on all platforms.
+    if ctags --help | grep -qe --recurse ||
+        confirm_continue "Ctags doesn't support recurse. Continue?"
+    then
+        link_dot "$DIR/ctags" ~/.ctags
+    fi
+fi
