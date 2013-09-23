@@ -69,3 +69,7 @@ if command -v ctags >/dev/null; then
         link_dot "$DIR/ctags" ~/.ctags
     fi
 fi
+
+if command -v mintty >/dev/null; then
+    link_dot "$DIR/minttyrc" ~/.minttyrc
+fi
