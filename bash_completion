@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+if [[ -d ~/.git-completion && -r ~/.git-completion && -x ~/.git-completion ]];
+then
+    for i in $(LC_ALL=C command ls ~/.git-completion);
+    do
+        i=~/.git-completion/$i
+        [[ ${i##*/} != @(*~|*.bak|*.swp|\#*\#|*.dpkg*|*.rpm@(orig|new|save)|Makefile*) && -f $i && -r $i ]] && . "$i"
+    done
+fi
+unset i
