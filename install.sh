@@ -73,3 +73,11 @@ fi
 if command -v mintty >/dev/null; then
     link_dot "$DIR/minttyrc" ~/.minttyrc
 fi
+
+if command -v bash >/dev/null; then
+    link_dot "$DIR/bash_logout" ~/.bash_logout
+    link_dot "$DIR/bash_completion" ~/.bash_completion
+    link_dot "$DIR/bash_profile" ~/.bash_profile
+    link_dot "$DIR/bashrc" ~/.bashrc
+    link_dot "$DIR/profile" ~/.profile
+fi
