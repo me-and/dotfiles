@@ -55,11 +55,24 @@ PROMPT_BG_CYAN='\[\e[46m\]'
 PROMPT_BG_WHITE='\[\e[47m\]'
 PROMPT_BG_UNCOLOUR='\[\e[49m\]'
 
+# Determine the colour to display the hostname.  Useful for determining at a
+# glance what system I'm connected to!
+case $(hostname) in
+    PC4306)
+        hostname_colour=$PROMPT_GREEN
+        ;;
+    northrend.tastycake.net)
+        hostname_colour=$PROMPT_CYAN
+        ;;
+    *)
+        hostname_colour=$PROMPT_WHITE
+esac
+
 # Now we can set the prompt!  Store it in OLD_PS1, too, in case I want to hack
 # around with it.
 PS1="$PROMPT_RESET"  # Start by resetting terminal colours
 PS1="$PS1\\[\\e]0;\\h:\\w\\a\\]"  # Terminal title
-PS1="$PS1\\n$PROMPT_GREEN\\u@\\h $PROMPT_YELLOW\\w"  # Host and path
+PS1="$PS1\\n$hostname_colour\\u@\\h $PROMPT_YELLOW\\w"  # Host and path
 if [[ $(type -t __git_ps1) == function ]]; then
     PS1="$PS1$PROMPT_RED\$(__git_ps1)"
 fi
