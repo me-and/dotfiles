@@ -1,10 +1,13 @@
-#!/usr/bin/bash
-if [[ -d ~/.git-completion && -r ~/.git-completion && -x ~/.git-completion ]];
-then
-    for i in $(LC_ALL=C command ls ~/.git-completion);
-    do
-        i=~/.git-completion/$i
-        [[ ${i##*/} != @(*~|*.bak|*.swp|\#*\#|*.dpkg*|*.rpm@(orig|new|save)|Makefile*) && -f $i && -r $i ]] && . "$i"
+# This file is sourced by /etc/bash_completion; no need to source it directly
+# ourselves.  It's also based broadly on the code in that file.
+if [[ -d ~/.bash_completion.d &&
+      -r ~/.bash_completion.d &&
+      -x ~/.bash_completion.d ]]; then
+    for file in $(LC_ALL=C command ls ~/.bash_completion.d); do
+        file=~/.bash_completion.d/$file
+        [[ ${file##*/} != @(*~|*.bak|*.swp|\#*\#|*.dpkg*|*.rpm@(orig|new|save)|Makefile*) &&
+            -f $file && -r $file ]] &&
+                . "$file"
     done
 fi
-unset i
+unset file
