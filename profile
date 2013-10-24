@@ -12,3 +12,7 @@ fi
 
 LANG=en_GB.UTF-8
 LANGUAGE=en_GB:en
+
+if [ "$(hostname)" = northrend.tastycake.net ]; then
+    exec screen -xRR
+fi
