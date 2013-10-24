@@ -92,8 +92,15 @@ alias fgrep='fgrep --color=auto'
 # Editor
 export VISUAL=/usr/bin/vim
 
-# And pick up the tip of the Python Markdown module
-export PYTHONPATH=/home/add/vcs/ext/Python-Markdown
+# And pick up the tip of the Python Markdown module, assuming it exists.
+#
+# @@TODO Make this more friendly somehow -- it shouldn't be so dependent on the
+# layout of my code trees.
+if [[ -d ~/vcs/ext/Python-Markdown &&
+      -r ~/vcs/ext/Python-Markdown &&
+      -x ~/vcs/ext/Python-Markdown ]]; then
+    export PYTHONPATH=/home/add/vcs/ext/Python-Markdown
+fi
 
 # Simple random number generator.  Not even vaguely secure.
 function rand {
@@ -104,10 +111,6 @@ function rand {
 # use in a call to find.  Beware using wildcards, eg *; these should be quoted
 # else they'll be expanded before find gets to them.
 function tgrep {
-    # Clear out variables from previous invocations
-    unset greparg
-    unset glob
-
     # Check there's at least two arguments (term to search for and file glob)
     if (( $# < 2 ))
     then
@@ -127,9 +130,15 @@ function tgrep {
 
     # And run the command
     find * -type f -name "$glob" -exec grep "${greparg[@]}" {} +
+
+    unset greparg
+    unset glob
 }
 
-# Helper function to check the big glowing ball o'doom
+# Helper function to check the big glowing ball o'doom.
+#
+# @@TODO Disable this where it doesn't make sense.  Hive off into a per-PC
+# script?
 alias CheckBuild="curl -sS http://tamvmcc1:8080/cruisecontrol/rss | grep -q '^<title>perimeta passed .*</title>\$'"
 function check_doom {
     CheckBuild && echo "Ball o'doom's happy." >&2 && return 0
@@ -158,11 +167,16 @@ function svn {
 }
 
 # Helper function for copying ID to a remote system then connecting to it.
+#
+# @@TODO Should probably be hived off; in places where I don't regularly
+# connect to new systems, I don't want this to be a trivial operation.
 function ssh-cp-connect {
     ssh-copy-id "$@" && ssh "$@"
 }
 
 # Function for quick creation of an issue directory
+#
+# @@TODO Should definitely be hived off
 function create_issue_dir {
     mkdir ~/isslocal/issue$1
     cd ~/isslocal/issue$1
@@ -170,9 +184,15 @@ function create_issue_dir {
 }
 
 # Set up DISPLAY so X works
+#
+# @@TODO This should probably test whether it's a sensible thing to do before
+# doing it; I don't want to do this where any X server would actually be
+# remote.
 export DISPLAY=:0.0
 
 # Helper functions to start tasks in the background
+#
+# @@TODO These also need hiving off
 function gitk {
     command gitk "$@" &
     disown
@@ -183,10 +203,14 @@ function vs {
 }
 
 # Helper function for markdown for Metacom articles
+#
+# @@TODO Definitely needs hiving off
 alias metadown="markdown -x 'headerid(forceid=True,level=3)'"
 
 # Run processes at a high priority
 alias unnice='nice -n -10'
 
 # Get the Windows-style pwd
-alias wpwd='cygpath -w $(pwd)'
+if command -v cygpath >/dev/null; then
+    alias wpwd='cygpath -w $(pwd)'
+fi
