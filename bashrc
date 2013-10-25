@@ -30,54 +30,72 @@ if [[ -x /usr/bin/lesspipe ]]; then
     eval "$(lesspipe)"
 fi
 
-# ANSI escapes for prompts
-PROMPT_RESET='\[\e[0m\]'
-PROMPT_BLINK='\[\e[5m\]'
-PROMPT_BOLD='\[\e[1m\]'
-PROMPT_UNBOLD='\[\e[22m\]'
-PROMPT_UNBLINK='\[\e[25m\]'
-PROMPT_BLACK='\[\e[30m\]'
-PROMPT_RED='\[\e[31m\]'
-PROMPT_GREEN='\[\e[32m\]'
-PROMPT_YELLOW='\[\e[33m\]'
-PROMPT_BLUE='\[\e[34m\]'
-PROMPT_MAGNETA='\[\e[35m\]'
-PROMPT_CYAN='\[\e[36m\]'
-PROMPT_WHITE='\[\e[37m\]'
-PROMPT_UNCOLOUR='\[\e[39m\]'
-PROMPT_BG_BLACK='\[\e[40m\]'
-PROMPT_BG_RED='\[\e[41m\]'
-PROMPT_BG_GREEN='\[\e[42m\]'
-PROMPT_BG_YELLOW='\[\e[43m\]'
-PROMPT_BG_BLUE='\[\e[44m\]'
-PROMPT_BG_MAGNETA='\[\e[45m\]'
-PROMPT_BG_CYAN='\[\e[46m\]'
-PROMPT_BG_WHITE='\[\e[47m\]'
-PROMPT_BG_UNCOLOUR='\[\e[49m\]'
+# ANSI escapes sequences
+ANSI_RESET='[0m'
+ANSI_BLINK='[5m'
+ANSI_BOLD='[1m'
+ANSI_UNBOLD='[22m'
+ANSI_UNBLINK='[25m'
+ANSI_BLACK='[30m'
+ANSI_RED='[31m'
+ANSI_GREEN='[32m'
+ANSI_YELLOW='[33m'
+ANSI_BLUE='[34m'
+ANSI_MAGNETA='[35m'
+ANSI_CYAN='[36m'
+ANSI_WHITE='[37m'
+ANSI_UNCOLOUR='[39m'
+ANSI_BG_BLACK='[40m'
+ANSI_BG_RED='[41m'
+ANSI_BG_GREEN='[42m'
+ANSI_BG_YELLOW='[43m'
+ANSI_BG_BLUE='[44m'
+ANSI_BG_MAGNETA='[45m'
+ANSI_BG_CYAN='[46m'
+ANSI_BG_WHITE='[47m'
+ANSI_BG_UNCOLOUR='[49m'
 
 # Determine the colour to display the hostname.  Useful for determining at a
 # glance what system I'm connected to!
 case $(hostname) in
     PC4306)
-        hostname_colour=$PROMPT_GREEN
+        hostname_colour=$ANSI_GREEN
+        pwd_colour=$ANSI_YELLOW
+        git_colour=$ANSI_RED
+        timestamp_colour=$ANSI_BLUE
         ;;
     northrend.tastycake.net)
-        hostname_colour=$PROMPT_CYAN
+        hostname_colour=$ANSI_CYAN
+        pwd_colour=$ANSI_GREEN
+        git_colour=$ANSI_BLUE
+        timestamp_colour=$ANSI_RED
+        ;;
+    Hendrix)
+        hostname_colour=$ANSI_GREEN
+        pwd_colour=$ANSI_MAGNETA
+        git_colour=$ANSI_YELLOW
+        timestamp_colour=$ANSI_CYAN
         ;;
     *)
-        hostname_colour=$PROMPT_WHITE
+        hostname_colour=$ANSI_WHITE
+        pwd_colour=$ANSI_YELLOW
+        git_colour=$ANSI_RED
+        timestamp_colour=$ANSI_BLUE
+        ;;
 esac
 
 # Now we can set the prompt!  Store it in OLD_PS1, too, in case I want to hack
 # around with it.
-PS1="$PROMPT_RESET"  # Start by resetting terminal colours
+PS1="\[\e$ANSI_RESET\]"  # Start by resetting terminal colours
 PS1="$PS1\\[\\e]0;\\h:\\w\\a\\]"  # Terminal title
-PS1="$PS1\\n$hostname_colour\\u@\\h $PROMPT_YELLOW\\w"  # Host and path
-if [[ $(type -t __git_ps1) == function ]]; then
-    PS1="$PS1$PROMPT_RED\$(__git_ps1)"
+PS1="$PS1\\n\[\e\$hostname_colour\]\\u@\\h "  # Host
+PS1="$PS1\[\e\$pwd_colour\]\\w"  # Working directory
+if [[ $(type -t __git_ps1) == function ]]
+then
+    PS1="$PS1\[\e\$git_colour\]\$(__git_ps1)"
 fi
-PS1="$PS1 $PROMPT_BLUE\\D{%a %e %b %T}"
-PS1="$PS1$PROMPT_UNCOLOUR\\n\\$ "  # Finish, newline, prompt
+PS1="$PS1 \[\e\$timestamp_colour\]\\D{%a %e %b %T}"
+PS1="$PS1\[\e$ANSI_UNCOLOUR\]\\n\\$ "  # Finish, newline, prompt
 OLD_PS1=$PS1
 
 # For good measure, a function for setting the terminal emulator title.
