@@ -60,24 +60,34 @@ ANSI_BG_UNCOLOUR='[49m'
 case $(hostname) in
     PC4306)
         hostname_colour=$ANSI_GREEN
+        pwd_colour=$ANSI_YELLOW
+        git_colour=$ANSI_RED
+        timestamp_colour=$ANSI_BLUE
         ;;
     northrend.tastycake.net)
         hostname_colour=$ANSI_CYAN
+        pwd_colour=$ANSI_YELLOW
+        git_colour=$ANSI_RED
+        timestamp_colour=$ANSI_BLUE
         ;;
     *)
         hostname_colour=$ANSI_WHITE
+        pwd_colour=$ANSI_YELLOW
+        git_colour=$ANSI_RED
+        timestamp_colour=$ANSI_BLUE
 esac
 
 # Now we can set the prompt!  Store it in OLD_PS1, too, in case I want to hack
 # around with it.
 PS1="\[\e$ANSI_RESET\]"  # Start by resetting terminal colours
 PS1="$PS1\\[\\e]0;\\h:\\w\\a\\]"  # Terminal title
-PS1="$PS1\\n\[\e\$hostname_colour\]\\u@\\h \[\e$ANSI_YELLOW\]\\w"  # Host & path
+PS1="$PS1\\n\[\e\$hostname_colour\]\\u@\\h "  # Host
+PS1="$PS1\[\e\$pwd_colour\]\\w"  # Working directory
 if [[ $(type -t __git_ps1) == function ]]
 then
-    PS1="$PS1\[\e$ANSI_RED\]\$(__git_ps1)"
+    PS1="$PS1\[\e\$git_colour\]\$(__git_ps1)"
 fi
-PS1="$PS1 \[\e$ANSI_BLUE\]\\D{%a %e %b %T}"
+PS1="$PS1 \[\e\$timestamp_colour\]\\D{%a %e %b %T}"
 PS1="$PS1\[\e$ANSI_UNCOLOUR\]\\n\\$ "  # Finish, newline, prompt
 OLD_PS1=$PS1
 
