@@ -66,6 +66,7 @@ case $(hostname) in
         ;;
     *)
         hostname_colour=$PROMPT_WHITE
+        ;;
 esac
 
 # Now we can set the prompt!  Store it in OLD_PS1, too, in case I want to hack
