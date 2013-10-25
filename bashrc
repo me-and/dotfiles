@@ -72,7 +72,7 @@ esac
 # around with it.
 PS1="\[\e$ANSI_RESET\]"  # Start by resetting terminal colours
 PS1="$PS1\\[\\e]0;\\h:\\w\\a\\]"  # Terminal title
-PS1="$PS1\\n\[\e$hostname_colour\]\\u@\\h \[\e$ANSI_YELLOW\]\\w"  # Host & path
+PS1="$PS1\\n\[\e\$hostname_colour\]\\u@\\h \[\e$ANSI_YELLOW\]\\w"  # Host & path
 if [[ $(type -t __git_ps1) == function ]]
 then
     PS1="$PS1\[\e$ANSI_RED\]\$(__git_ps1)"
