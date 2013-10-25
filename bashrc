@@ -70,6 +70,12 @@ case $(hostname) in
         git_colour=$ANSI_BLUE
         timestamp_colour=$ANSI_RED
         ;;
+    Hendrix)
+        hostname_colour=$ANSI_GREEN
+        pwd_colour=$ANSI_MAGNETA
+        git_colour=$ANSI_YELLOW
+        timestamp_colour=$ANSI_CYAN
+        ;;
     *)
         hostname_colour=$ANSI_WHITE
         pwd_colour=$ANSI_YELLOW
