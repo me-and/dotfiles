@@ -66,9 +66,9 @@ case $(hostname) in
         ;;
     northrend.tastycake.net)
         hostname_colour=$ANSI_CYAN
-        pwd_colour=$ANSI_YELLOW
-        git_colour=$ANSI_RED
-        timestamp_colour=$ANSI_BLUE
+        pwd_colour=$ANSI_GREEN
+        git_colour=$ANSI_BLUE
+        timestamp_colour=$ANSI_RED
         ;;
     *)
         hostname_colour=$ANSI_WHITE
