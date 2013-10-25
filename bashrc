@@ -75,6 +75,7 @@ case $(hostname) in
         pwd_colour=$ANSI_YELLOW
         git_colour=$ANSI_RED
         timestamp_colour=$ANSI_BLUE
+        ;;
 esac
 
 # Now we can set the prompt!  Store it in OLD_PS1, too, in case I want to hack
