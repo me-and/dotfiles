@@ -123,6 +123,13 @@ alias fgrep='fgrep --color=auto'
 # Editor
 export VISUAL=/usr/bin/vim
 
+# When calling cscope, I generally want some useful default arguments: -k
+# ignores the standard include directories (I'm rarely interested in those
+# anyway), -R recurses into directories, -q builds a reverse-lookup indices for
+# speed, and -b stops cscope launching its interactive mode (why would I want
+# that when I can launch vim directly!?).
+alias cscope='cscope -kRqb'
+
 # And pick up the tip of the Python Markdown module, assuming it exists.
 #
 # @@TODO Make this more friendly somehow -- it shouldn't be so dependent on the
