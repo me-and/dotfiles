@@ -27,7 +27,9 @@ shopt -s globstar
 
 # Make less more friendly
 if [[ -x /usr/bin/lesspipe ]]; then
-    eval "$(/usr/bin/lesspipe)"
+    eval "$(/usr/bin/lesspipe)"  # Seen on Debian
+elif [[ -x /usr/bin/lesspipe.sh ]]; then
+    eval "$(/usr/bin/lesspipe.sh)"  # Seen on Cygwin
 fi
 
 # ANSI escapes sequences
