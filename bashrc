@@ -90,7 +90,7 @@ esac
 # around with it.
 PS1="\[\e$ANSI_RESET\]"  # Start by resetting terminal colours
 PS1="$PS1\\[\\e]0;\\h:\\w\\a\\]"  # Terminal title
-PS1="$PS1\\n\[\e\$hostname_colour\]\\u@\\h "  # Host
+PS1="$PS1\\n\[\e\$hostname_colour\]\\u@\\h:"  # Host
 PS1="$PS1\[\e\$pwd_colour\]\\w"  # Working directory
 if [[ $(type -t __git_ps1) == function ]]
 then
