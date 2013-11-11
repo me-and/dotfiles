@@ -243,7 +243,7 @@ function gitk {
     disown
 }
 function vs {
-    command vs "$@" &
+    command vs $(cygpath -w "$1") &
     disown
 }
 
