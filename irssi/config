@@ -260,7 +260,8 @@ settings = {
   core = {
     real_name = "Adam Dinwoodie";
     user_name = "adam";
-    nick = "adam";
+    nick = "me_and";
   };
   "fe-text" = { actlist_sort = "refnum"; };
+  "irc/core" = { alternate_nick = "and_i"; };
 };
