@@ -22,7 +22,63 @@ servers = (
   { address = "irc.webchat.org"; chatnet = "WebChat"; port = "6667"; },
   { address = "irc.rizon.net"; chatnet = "Rizon"; port = "6667"; },
   { address = "irc.link-net.org"; chatnet = "LinkNet"; port = "6667"; },
-  { address = "silc.silcnet.org"; chatnet = "SILC"; port = "706"; }
+  { address = "silc.silcnet.org"; chatnet = "SILC"; port = "706"; },
+  {
+    address = "irc.eu.esper.net";
+    chatnet = "EsperNet";
+    port = "6697";
+    use_ssl = "yes";
+    ssl_verify = "no";
+  },
+  {
+    address = "availo.esper.net";
+    chatnet = "EsperNet";
+    port = "6697";
+    use_ssl = "yes";
+    ssl_verify = "no";
+  },
+  {
+    address = "irc.esper.net";
+    chatnet = "EsperNet";
+    port = "6697";
+    use_ssl = "yes";
+    ssl_verify = "no";
+  },
+  {
+    address = "optical.esper.net";
+    chatnet = "EsperNet";
+    port = "6697";
+    use_ssl = "yes";
+    ssl_verify = "no";
+  },
+  {
+    address = "portlane.esper.net";
+    chatnet = "EsperNet";
+    port = "6697";
+    use_ssl = "yes";
+    ssl_verify = "no";
+  },
+  {
+    address = "irc.na.esper.net";
+    chatnet = "EsperNet";
+    port = "6697";
+    use_ssl = "yes";
+    ssl_verify = "no";
+  },
+  {
+    address = "chaos.esper.net";
+    chatnet = "EsperNet";
+    port = "6697";
+    use_ssl = "yes";
+    ssl_verify = "no";
+  },
+  {
+    address = "nova.esper.net";
+    chatnet = "EsperNet";
+    port = "6697";
+    use_ssl = "yes";
+    ssl_verify = "no";
+  }
 );
 
 chatnets = {
@@ -88,6 +144,7 @@ chatnets = {
     max_whois = "30";
   };
   SILC = { type = "SILC"; };
+  EsperNet = { type = "IRC"; };
 };
 
 channels = (
