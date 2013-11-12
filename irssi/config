@@ -78,6 +78,13 @@ servers = (
     port = "6697";
     use_ssl = "yes";
     ssl_verify = "no";
+  },
+  {
+    address = "chat.freenode.net";
+    chatnet = "Freenode";
+    port = "6697";
+    use_ssl = "yes";
+    ssl_verify = "yes";
   }
 );
 
@@ -145,6 +152,7 @@ chatnets = {
   };
   SILC = { type = "SILC"; };
   EsperNet = { type = "IRC"; };
+  Freenode = { type = "IRC"; };
 };
 
 channels = (
