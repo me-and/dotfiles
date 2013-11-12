@@ -81,3 +81,7 @@ if command -v bash >/dev/null; then
     link_dot "$DIR/bashrc" ~/.bashrc
     link_dot "$DIR/profile" ~/.profile
 fi
+
+if command -v irssi >/dev/null; then
+    link_dot -f "$DIR/irssi" ~/.irssi
+fi
