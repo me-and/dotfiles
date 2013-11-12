@@ -157,7 +157,11 @@ chatnets = {
 
 channels = (
   { name = "#irssi"; chatnet = "ircnet"; autojoin = "No"; },
-  { name = "silc"; chatnet = "silc"; autojoin = "No"; }
+  { name = "silc"; chatnet = "silc"; autojoin = "No"; },
+  { name = "#maelfroth"; chatnet = "EsperNet"; autojoin = "yes"; },
+  { name = "#odcfroth"; chatnet = "EsperNet"; autojoin = "yes"; },
+  { name = "#empirefroth"; chatnet = "EsperNet"; autojoin = "yes"; },
+  { name = "#wikipedia-en-drn"; chatnet = "Freenode"; }
 );
 
 aliases = {
