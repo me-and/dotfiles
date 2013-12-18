@@ -250,7 +250,13 @@ function vs {
 # Helper function for markdown for Metacom articles
 #
 # @@TODO Definitely needs hiving off
-alias metadown="markdown -x 'headerid(forceid=True,level=3)'"
+if command -v python3 >/dev/null; then
+    alias markdown='python3 -m markdown -x abbr -x def_list -x fenced_code -x "footnotes(PLACE_MARKER=+++FOOTNOTES HERE+++)" -x "headerid(forceid=False,level=1)" -x tables'
+    alias metadown='python3 -m markdown -x abbr -x def_list -x fenced_code -x "footnotes(PLACE_MARKER=+++FOOTNOTES HERE+++)" -x "headerid(forceid=True,level=3)" -x tables'
+elif command -v python >/dev/null; then
+    alias markdown='python -m markdown -x abbr -x def_list -x fenced_code -x "footnotes(PLACE_MARKER=+++FOOTNOTES HERE+++)" -x "headerid(forceid=False,level=1)" -x tables'
+    alias metadown='python -m markdown -x abbr -x def_list -x fenced_code -x "footnotes(PLACE_MARKER=+++FOOTNOTES HERE+++)" -x "headerid(forceid=True,level=3)" -x tables'
+fi
 
 # Run processes at a high priority
 alias unnice='nice -n -10'
