@@ -48,7 +48,7 @@ link_dot () {
 }
 
 if command -v vim >/dev/null; then
-    if vim --version | grep -qF 'Vi IMproved 7.3' ||
+    if vim --version | grep -q 'Vi IMproved 7\.[34]' ||
         confirm_continue "Vim version information not recognized. Continue?"
     then
         link_dot "$DIR/vimrc" ~/.vimrc
