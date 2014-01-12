@@ -42,3 +42,10 @@ syntax enable
 
 " If using the spell checker, we're writing in British English
 set spelllang=en_gb
+
+" If we support it (added in Vim 7.4), have the value of shiftwidth follow
+" that of tabstop, and the value of softtabstop follow shiftwidth.
+if version >= 704
+	set shiftwidth=0
+	set softtabstop=-1
+endif
