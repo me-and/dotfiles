@@ -81,3 +81,12 @@ if command -v bash >/dev/null; then
     link_dot "$DIR/bashrc" ~/.bashrc
     link_dot "$DIR/profile" ~/.profile
 fi
+
+if command -v ssh >/dev/null &&
+   { [[ -d ~/.ssh ]] ||
+     confirm_continue "~/.ssh directory doesn't exist. Create it?"; }
+then
+    mkdir -p ~/.ssh
+    chmod 755 ~/.ssh
+    link_dot "$DIR/ssh-config" ~/.ssh/config
+fi
