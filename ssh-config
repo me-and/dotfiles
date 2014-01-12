@@ -1,0 +1,11 @@
+# Process the file from top to bottom.  Use the first setting we find for each
+# config option, but still try to match later Host groups in case other config
+# options are specified there.
+HashKnownHosts no
+# Only try the RSA key, ie don't try DSA or ECDSA (which are tried by default).
+IdentityFile ~/.ssh/id_rsa
+Host tastycake tastycake.net
+	HostName ssh.tastycake.net
+	User adam
+Host ftp.chaosdeathfish.com
+	User www-photos
