@@ -147,6 +147,11 @@ function rand {
     echo $(( (RANDOM % $1) + 1 ))
 }
 
+# Doge Git: https://twitter.com/chris__martin/status/420992421673988096
+alias such=git
+alias very=git
+alias wow='git status'
+
 # Tree grep.  The final argument should be the file glob pattern to use, as for
 # use in a call to find.  Beware using wildcards, eg *; these should be quoted
 # else they'll be expanded before find gets to them.
