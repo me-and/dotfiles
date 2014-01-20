@@ -180,7 +180,7 @@ function tgrep {
     unset glob
 }
 
-# Helper function to check the big glowing ball o'doom.
+# Helper functions to check the big glowing ball o'doom.
 #
 # @@TODO Disable this where it doesn't make sense.  Hive off into a per-PC
 # script?
@@ -195,6 +195,13 @@ function check_doom {
     [[ ($resp == y) || ($resp == Y) ]] && return 0
 
     return 1
+}
+function doom_colour {
+    if CheckBuild; then
+        echo Green
+    else
+        echo Red
+    fi
 }
 function git {
     if [[ (($1 == svn) && ($2 == dcommit)) || ($1 == sci) ]]; then
