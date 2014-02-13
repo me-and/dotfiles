@@ -90,3 +90,7 @@ then
     chmod 755 ~/.ssh
     link_dot "$DIR/ssh-config" ~/.ssh/config
 fi
+
+if command -v irssi >/dev/null; then
+    link_dot -f "$DIR/irssi" ~/.irssi
+fi
