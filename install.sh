@@ -12,7 +12,7 @@ confirm_overwrite () {
 confirm_continue () {
     local prompt=$1 rsp=
     while :; do
-        read -n1 -p "$prompt [y/n] " rsp
+        read -p "$prompt [y/n] " rsp
         echo
         if [[ $rsp == y ]]; then
             return 0
