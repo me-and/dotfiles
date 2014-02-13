@@ -334,3 +334,11 @@ settings = {
   "fe-text" = { actlist_sort = "refnum"; };
   "irc/core" = { alternate_nick = "and_i"; };
 };
+windows = {
+  1 = { immortal = "yes"; name = "(status)"; level = "ALL"; };
+  2 = { name = "hilight"; sticky = "yes"; };
+};
+mainwindows = {
+  1 = { first_line = "8"; lines = "51"; };
+  2 = { first_line = "1"; lines = "7"; };
+};
