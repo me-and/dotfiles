@@ -94,7 +94,7 @@ PS1="$PS1\\n\[\e\$hostname_colour\]\\u@\\h:"  # Host
 PS1="$PS1\[\e\$pwd_colour\]\\w"  # Working directory
 if [[ $(type -t __git_ps1) == function ]]
 then
-    PS1="$PS1\[\e\$git_colour\]\$(__git_ps1)"
+    PS1="$PS1\[\e\$ANSI_UNCOLOUR\]\$(__git_ps1)"
 fi
 PS1="$PS1 \[\e\$timestamp_colour\]\\D{%a %e %b %T}"
 PS1="$PS1\[\e$ANSI_UNCOLOUR\]\\n\\$ "  # Finish, newline, prompt
