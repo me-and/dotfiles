@@ -12,7 +12,7 @@ confirm_overwrite () {
 confirm_continue () {
     local prompt=$1 rsp=
     while :; do
-        read -n1 -p "$prompt [y/n] " rsp
+        read -p "$prompt [y/n] " rsp
         echo
         if [[ $rsp == y ]]; then
             return 0
@@ -89,4 +89,8 @@ then
     mkdir -p ~/.ssh
     chmod 755 ~/.ssh
     link_dot "$DIR/ssh-config" ~/.ssh/config
+fi
+
+if command -v irssi >/dev/null; then
+    link_dot -f "$DIR/irssi" ~/.irssi
 fi
