@@ -17,7 +17,8 @@ set ruler
 " Show the current command as I'm typing it.
 set showcmd
 
-" Show whitespace in a useful fashion.
+" Show whitespace in a useful fashion.  Note this disables the `linebreak`
+" setting, so to `set linebreak` you'll also need to `set nolist`.
 set list listchars=tab:\ \ ,trail:-
 
 " When entering a bracket, show its partner.
