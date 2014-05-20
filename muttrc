@@ -1,0 +1,29 @@
+# Basic details.
+set realname="Adam Dinwoodie"
+set from=adam@dinwoodie.org
+set hostname=dinwoodie.org
+
+# Gmail connection.
+set imap_user=$from
+set folder="imaps://imap.gmail.com:993/"
+set smtp_url="smtp://adam@dinwoodie.org@smtp.gmail.com:587/"
+
+# Default folders.
+set spoolfile="+INBOX"
+set postponed="+[Gmail]/Drafts"
+
+# Keep monitoring for updates and keep the connection alive.
+set imap_check_subscribed
+set mail_check=120
+set timeout=300
+set imap_keepalive=300
+
+# Don't move read messages around.
+set move=no
+
+# Respond with my name but whatever email address things were sent to.
+set reverse_name
+unset reverse_realname
+
+#set smtp_pass=""
+#set imap_pass=""
