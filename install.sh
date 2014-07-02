@@ -88,7 +88,7 @@ if command -v ssh >/dev/null &&
 then
     mkdir -p ~/.ssh
     chmod 755 ~/.ssh
-    link_dot "$DIR/ssh-config" ~/.ssh/config
+    link_dot "$DIR/ssh/config" ~/.ssh/config
 fi
 
 if command -v irssi >/dev/null; then
