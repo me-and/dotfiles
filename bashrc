@@ -206,20 +206,22 @@ function doom_colour {
         echo Red
     fi
 }
-function git {
-    if [[ (($1 == svn) && ($2 == dcommit)) || ($1 == sci) ]]; then
-        check_doom && command git "$@"
-    else
-        command git "$@"
-    fi
-}
-function svn {
-    if [[ ($1 == ci) || ($1 == commit) ]]; then
-        check_doom && command svn "$@"
-    else
-        command svn "$@"
-    fi
-}
+# @@Commented out because it's now so very rare that I care about the ball of
+# doom.
+# function git {
+#     if [[ (($1 == svn) && ($2 == dcommit)) || ($1 == sci) ]]; then
+#         check_doom && command git "$@"
+#     else
+#         command git "$@"
+#     fi
+# }
+# function svn {
+#     if [[ ($1 == ci) || ($1 == commit) ]]; then
+#         check_doom && command svn "$@"
+#     else
+#         command svn "$@"
+#     fi
+# }
 
 # Helper function for copying ID to a remote system then connecting to it.
 #
