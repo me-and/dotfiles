@@ -235,14 +235,14 @@ function ssh-cp-connect {
 #
 # @@TODO Should definitely be hived off
 function create_issue_dir {
-    mkdir ~/isslocal/issue$1
+    mkdir -p ~/isslocal/issue$1
     cd ~/isslocal/issue$1
-    ln -s ~/issues/issue$1
+    [[ -e issue$1 ]] || ln -s ~/issues/issue$1
 }
 function create_sfr_dir {
-    mkdir ~/sfrlocal/sfr$1
+    mkdir -p ~/sfrlocal/sfr$1
     cd ~/sfrlocal/sfr$1
-    ln -s ~/sfrs/sfr$1
+    [[ -e sfr$1 ]] || ln -s ~/sfrs/sfr$1
 }
 
 # Set up DISPLAY so X works
