@@ -12,6 +12,10 @@ set smtp_url="smtp://adam@dinwoodie.org@smtp.gmail.com:587/"
 set spoolfile="+INBOX"
 set postponed="+[Gmail]/Drafts"
 
+# No default folder for sent mail, since we're using Google's SMTP server
+# which'll look after it for us anyway.
+set record=""
+
 # Keep monitoring for updates and keep the connection alive.
 set imap_check_subscribed
 set mail_check=120
