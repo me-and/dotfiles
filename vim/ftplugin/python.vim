@@ -14,3 +14,6 @@ set tabstop=8
 
 " Mark whitespace.
 set list listchars=tab:>\ ,trail:-
+
+" Highlight line end
+set colorcolumn=80
