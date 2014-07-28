@@ -25,6 +25,9 @@ shopt -s checkwinsize
 # Expand ** for directory parsing
 shopt -s globstar
 
+# Don't exit if there are running jobs
+shopt -s checkjobs
+
 # Make less more friendly
 if [[ -x /usr/bin/lesspipe ]]; then
     eval "$(/usr/bin/lesspipe)"  # Seen on Debian
