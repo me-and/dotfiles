@@ -96,5 +96,9 @@ if command -v irssi >/dev/null; then
 fi
 
 if command -v mutt >/dev/null; then
-    link_dot -f "$DIR/muttrc" ~/.muttrc
+    if mutt -v | grep -q 'Mutt 1.5.21' ||
+        confirm_continue "Mutt version information not recognized. Continue?"
+    then
+        link_dot -f "$DIR/muttrc" ~/.muttrc
+    fi
 fi
