@@ -1,7 +1,7 @@
 " PEP8 says indent with four spaces per indentation level.
 set expandtab
 set shiftwidth=4
-"
+
 " Only need to set softtabstop on Vim 7.3 or later; it'll be automatically set
 " in vimrc to match tabstop on Vim 7.4.
 if version < 704
