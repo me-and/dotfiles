@@ -1,0 +1,21 @@
+[submodule "vim/bundle/ag.vim"]
+	path = vim/bundle/ag.vim
+	url = git://github.com/rking/ag.vim
+[submodule "vim/bundle/ctrlp-cmatcher"]
+	path = vim/bundle/ctrlp-cmatcher
+	url = git://github.com/JazzCore/ctrlp-cmatcher
+[submodule "vim/bundle/ctrlp.vim"]
+	path = vim/bundle/ctrlp.vim
+	url = git://github.com/kien/ctrlp.vim
+[submodule "vim/bundle/python-mode"]
+	path = vim/bundle/python-mode
+	url = git://github.com/klen/python-mode
+[submodule "vim/bundle/vundle"]
+	path = vim/bundle/vundle
+	url = git://github.com/gmarik/vundle.git
+[submodule "vim/plugin/traceformat"]
+	path = vim/plugin/traceformat
+	url = git@gitlab.datcon.co.uk:traceformat.git
+[submodule "vim/bundle/vimips"]
+	path = vim/bundle/vimips
+	url = git@gitlab.datcon.co.uk:vimips.git

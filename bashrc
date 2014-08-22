@@ -1,284 +1,97 @@
-# This script based in part on the one that was distributed with Debian
+# .bashrc
 
-# Bail out if we're not running interactively.
-if [[ $- != *i* ]]; then
-    return
+# User specific aliases and functions
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias ll='ll -h'
+alias cdb='cd /data/codebase'
+alias cdd='cd /data'
+alias grep='grep --color -I'
+get_diags() {
+  if [[ (-n $1) && (-n $2) ]]
+  then
+    scp "${1}:/var/opt/MetaSwitch/craft/ftp/msdiags_${3:-'*'}_${2}_*.tar.gz" ~ && rename msdiags ${1}_msdiags ~/msdiags_*_${2}_*.tar.gz
+  else
+    echo 'Usage: get_diags box trap (A/B)'
+  fi
+}
+
+# Restart the clipboard, when it stops working.
+alias noclip='killall VBoxClient; VBoxClient-all'
+
+# Start up cacti, for SMNP stat tracking.
+alias cacti='for service in mysqld httpd sendmail; do sudo service $service start; done'
+
+# Useful paths to use in Bash scripts.
+export CB_ROOT='/data/codebase'
+export BUILD_ROOT='/data/codebase/output/jobs/lnx64/'
+export SLOTH='/data/codebase/orlando/test/sloth2'
+
+# How many cores to use when compiling the codebase?
+export DMAKE_MAX_JOBS='4'
+
+# Places to look for libraries.  Multiple places to find these.
+# Important ones are the general output directories from compiling the
+# codebase.  Chase these with various libraries hidden around the codebase.
+export LD_LIBRARY_PATH="${CB_ROOT}/output/jobs/lnx64/fv/debug:${CB_ROOT}/output/lnx64/debug:${CB_ROOT}/output/jobs/lnx64/fv/release:${CB_ROOT}/output/lnx64/release:${CB_ROOT}/orlando/code/jobs/gnu/libs/intel:${CB_ROOT}/orlando/code/tools/ipp/lib/lnx64"
+
+# Default programs.
+export EDITOR=vim
+export DIFFCMD="vimdiff"
+
+# Go.
+export GOROOT=/usr/local/go
+export GOPATH=/data/go
+
+# Paths.
+export PATH="${PATH}:/opt/CollabNet_Subversion/bin:${GOROOT}/bin:${GOPATH}/bin:/dcl-svn/client"
+export PYTHONPATH="${CB_ROOT}/orlando/python/legacy:${CB_ROOT}/orlando/python/packages"
+
+# Pretty prompt.  
+function parse_git_dirty {
+  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
+}
+function parse_git_branch {
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)] /"
+}
+export PS1='$(parse_git_branch)[\u@\h \w]\$ '
+#export PS1='$(parse_git_branch)\W >> '
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
 fi
 
-# Don't add lines that start with a space or which duplicate the previous line
-# to the bash history.
-HISTCONTROL=ignoreboth
-
-# Enable bash completion, but only if it hasn't been enabled already -- it's
-# done automatically in Cygwin and is slow, so we don't want it twice!
-if [[ -z $BASH_COMPLETION && -r /etc/bash_completion ]] && ! shopt -oq posix
+# The terminal actually supports 256-bit colour.
+if [[ $TERM == "xterm" ]]
 then
-    . /etc/bash_completion
+  export TERM="xterm-256color"
 fi
 
-# Append to the history file rather than overwriting it.
-shopt -s histappend
-
-# Check the window size after each command, updating LINES and COLUMNS.
-shopt -s checkwinsize
-
-# Expand ** for directory parsing
-shopt -s globstar
-
-# Don't exit if there are running jobs
-shopt -s checkjobs
-
-# Make less more friendly
-if [[ -x /usr/bin/lesspipe ]]; then
-    eval "$(/usr/bin/lesspipe)"  # Seen on Debian
-elif [[ -x /usr/bin/lesspipe.sh ]]; then
-    eval "$(/usr/bin/lesspipe.sh)"  # Seen on Cygwin
-fi
-
-# ANSI escapes sequences
-ANSI_RESET='[0m'
-ANSI_BLINK='[5m'
-ANSI_BOLD='[1m'
-ANSI_UNBOLD='[22m'
-ANSI_UNBLINK='[25m'
-ANSI_BLACK='[30m'
-ANSI_RED='[31m'
-ANSI_GREEN='[32m'
-ANSI_YELLOW='[33m'
-ANSI_BLUE='[34m'
-ANSI_MAGNETA='[35m'
-ANSI_CYAN='[36m'
-ANSI_WHITE='[37m'
-ANSI_UNCOLOUR='[39m'
-ANSI_BG_BLACK='[40m'
-ANSI_BG_RED='[41m'
-ANSI_BG_GREEN='[42m'
-ANSI_BG_YELLOW='[43m'
-ANSI_BG_BLUE='[44m'
-ANSI_BG_MAGNETA='[45m'
-ANSI_BG_CYAN='[46m'
-ANSI_BG_WHITE='[47m'
-ANSI_BG_UNCOLOUR='[49m'
-
-# Determine the colour to display the hostname.  Useful for determining at a
-# glance what system I'm connected to!
-case $(hostname) in
-    PC4306)
-        hostname_colour=$ANSI_GREEN
-        pwd_colour=$ANSI_YELLOW
-        git_colour=$ANSI_RED
-        timestamp_colour=$ANSI_BLUE
-        ;;
-    northrend.tastycake.net)
-        hostname_colour=$ANSI_CYAN
-        pwd_colour=$ANSI_GREEN
-        git_colour=$ANSI_BLUE
-        timestamp_colour=$ANSI_RED
-        ;;
-    Hendrix)
-        hostname_colour=$ANSI_GREEN
-        pwd_colour=$ANSI_MAGNETA
-        git_colour=$ANSI_YELLOW
-        timestamp_colour=$ANSI_CYAN
-        ;;
-    *)
-        hostname_colour=$ANSI_WHITE
-        pwd_colour=$ANSI_YELLOW
-        git_colour=$ANSI_RED
-        timestamp_colour=$ANSI_BLUE
-        ;;
-esac
-
-# Now we can set the prompt!  Store it in OLD_PS1, too, in case I want to hack
-# around with it.
-PS1="\[\e$ANSI_RESET\]"  # Start by resetting terminal colours
-PS1="$PS1\\[\\e]0;\\h:\\w\\a\\]"  # Terminal title
-PS1="$PS1\\n\[\e\$hostname_colour\]\\u@\\h "  # Host
-PS1="$PS1\[\e\$pwd_colour\]\\w"  # Working directory
-if [[ $(type -t __git_ps1) == function ]]
+# Colourful prompts to cheer the day.
+#if [[ $TERM == "putty-256color" || $TERM == "xterm-256color" ]]
+if [[ 1 -eq 2 ]]
 then
-    PS1="$PS1\[\e\$ANSI_UNCOLOUR\]\$(__git_ps1)"
-fi
-PS1="$PS1 \[\e\$timestamp_colour\]\\D{%a %e %b %T}"
-PS1="$PS1\[\e$ANSI_UNCOLOUR\]\\n\\$ "  # Finish, newline, prompt
-OLD_PS1=$PS1
+  # Get a random color which is good on a dark background.
+  function get_rand_color {
+  num='0'
+  invalid_nums='0 4 16 17 18 19 20 21 22 25 52 53 54 55 56 57 91 92 232 233 234 235 236 237 238 239 240'
+  while [[ $invalid_nums =~ $num ]]
+  do
+    num=$((RANDOM%255+1))
+  done
+  echo $num
+  }
+  function set_rand_color {
+  COL=$(get_rand_color)
+  tput setaf ${COL}
+  #echo "($COL)"
+  }
 
-# For good measure, a function for setting the terminal emulator title.
-set_terminal_title () {
-    echo -e '\e]0;'"$@"'\a'
-}
-
-# Colours for ls
-if [[ -x /usr/bin/dircolors ]]; then
-    if [[ -r ~/.dircolors ]]; then
-        eval "$(dircolors -b ~/.dircolors)"
-    else
-        eval "$(dircolors -b)"
-    fi
-fi
-
-# And colour the output of useful commands
-alias ls='ls --color=auto'
-alias dir='dir --color=auto'
-alias vdir='vdir --color=auto'
-alias grep='grep --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-
-# Editor
-export VISUAL=/usr/bin/vim
-
-# When calling cscope, I generally want some useful default arguments: -k
-# ignores the standard include directories (I'm rarely interested in those
-# anyway), -R recurses into directories, -q builds a reverse-lookup indices for
-# speed, and -b stops cscope launching its interactive mode (why would I want
-# that when I can launch vim directly!?).
-alias cscope='cscope -kRqb'
-
-# And pick up the tip of the Python Markdown module, assuming it exists.
-#
-# @@TODO Make this more friendly somehow -- it shouldn't be so dependent on the
-# layout of my code trees.
-if [[ -d ~/vcs/ext/Python-Markdown &&
-      -r ~/vcs/ext/Python-Markdown &&
-      -x ~/vcs/ext/Python-Markdown ]]; then
-    export PYTHONPATH=/home/add/vcs/ext/Python-Markdown
+  export PS1='\[$(set_rand_color)\]'$PS1
 fi
 
-# Simple random number generator.  Not even vaguely secure.
-function rand {
-    echo $(( (RANDOM % $1) + 1 ))
-}
-
-# Doge Git: https://twitter.com/chris__martin/status/420992421673988096
-alias such=git
-alias very=git
-alias wow='git status'
-
-# Tree grep.  The final argument should be the file glob pattern to use, as for
-# use in a call to find.  Beware using wildcards, eg *; these should be quoted
-# else they'll be expanded before find gets to them.
-function tgrep {
-    # Check there's at least two arguments (term to search for and file glob)
-    if (( $# < 2 ))
-    then
-        echo 'Insufficient arguments to tgrep' >&2
-        return 1
-    fi
-
-    # All bar the last argument will be passed to grep.
-    for (( ii=0 ; $# > 1 ; ii++ ))
-    do
-        greparg[ii]="$1"
-        shift
-    done
-
-    # The last argument is the file glob for find to use.
-    glob="$1"
-
-    # And run the command
-    find * -type f -name "$glob" -exec grep "${greparg[@]}" {} +
-
-    unset greparg
-    unset glob
-}
-
-# Helper functions to check the big glowing ball o'doom.
-#
-# @@TODO Disable this where it doesn't make sense.  Hive off into a per-PC
-# script?
-alias CheckBuild="curl -sS http://tamvmcc1:8080/cruisecontrol/rss | grep -q '^<title>perimeta passed .*</title>\$'"
-function check_doom {
-    CheckBuild && echo "Ball o'doom's happy." >&2 && return 0
-
-    echo "The big glowing ball o'doom says no." >&2
-    echo -n "Continue anyway? [y/N] " >&2
-
-    read resp
-    [[ ($resp == y) || ($resp == Y) ]] && return 0
-
-    return 1
-}
-function doom_colour {
-    if CheckBuild; then
-        echo Green
-    else
-        echo Red
-    fi
-}
-# @@Commented out because it's now so very rare that I care about the ball of
-# doom.
-# function git {
-#     if [[ (($1 == svn) && ($2 == dcommit)) || ($1 == sci) ]]; then
-#         check_doom && command git "$@"
-#     else
-#         command git "$@"
-#     fi
-# }
-# function svn {
-#     if [[ ($1 == ci) || ($1 == commit) ]]; then
-#         check_doom && command svn "$@"
-#     else
-#         command svn "$@"
-#     fi
-# }
-
-# Helper function for copying ID to a remote system then connecting to it.
-#
-# @@TODO Should probably be hived off; in places where I don't regularly
-# connect to new systems, I don't want this to be a trivial operation.
-function ssh-cp-connect {
-    ssh-copy-id "$@" && ssh "$@"
-}
-
-# Function for quick creation of an issue or SFR directory
-#
-# @@TODO Should definitely be hived off
-function create_issue_dir {
-    mkdir -p ~/isslocal/issue$1
-    cd ~/isslocal/issue$1
-    [[ -e issue$1 ]] || ln -s ~/issues/issue$1
-}
-function create_sfr_dir {
-    mkdir -p ~/sfrlocal/sfr$1
-    cd ~/sfrlocal/sfr$1
-    [[ -e sfr$1 ]] || ln -s ~/sfrs/sfr$1
-}
-
-# Set up DISPLAY so X works
-#
-# @@TODO This should probably test whether it's a sensible thing to do before
-# doing it; I don't want to do this where any X server would actually be
-# remote.
-export DISPLAY=:0.0
-
-# Helper functions to start tasks in the background
-#
-# @@TODO These also need hiving off
-function gitk {
-    command gitk "$@" &
-    disown
-}
-function vs {
-    command vs $(cygpath -w "$1") &
-    disown
-}
-
-# Helper function for markdown for Metacom articles
-#
-# @@TODO Definitely needs hiving off
-if command -v python3 >/dev/null; then
-    alias markdown='python3 -m markdown -x abbr -x def_list -x fenced_code -x "footnotes(PLACE_MARKER=+++FOOTNOTES HERE+++)" -x "headerid(forceid=False,level=1)" -x tables'
-    alias metadown='python3 -m markdown -x abbr -x def_list -x fenced_code -x "footnotes(PLACE_MARKER=+++FOOTNOTES HERE+++)" -x "headerid(forceid=True,level=3)" -x tables'
-elif command -v python >/dev/null; then
-    alias markdown='python -m markdown -x abbr -x def_list -x fenced_code -x "footnotes(PLACE_MARKER=+++FOOTNOTES HERE+++)" -x "headerid(forceid=False,level=1)" -x tables'
-    alias metadown='python -m markdown -x abbr -x def_list -x fenced_code -x "footnotes(PLACE_MARKER=+++FOOTNOTES HERE+++)" -x "headerid(forceid=True,level=3)" -x tables'
-fi
-
-# Run processes at a high priority
-alias unnice='nice -n -10'
-
-# Get the Windows-style pwd
-if command -v cygpath >/dev/null; then
-    alias wpwd='cygpath -w $(pwd)'
-fi
+# Fuzzy finding files.
+source ~/.fzf.bash
