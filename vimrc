@@ -11,11 +11,37 @@ set autoindent
 " Make backspace useful.
 set backspace=indent,eol,start
 
-" Show current position in the file
+" Always have a status line and the current position in the file.
+set laststatus=2
 set ruler
 
-" Show the current command as I'm typing it.
+" Show details of selected text when selecting it.
 set showcmd
+
+" Use incremental search.
+set incsearch
+
+" Tab completion of Vim commands.
+set wildmenu
+set wildmode=longest,list
+
+" Put the relative line number in the margin.
+set relativenumber
+highlight LineNr ctermfg=gray
+
+" Allow toggling between relative numbers and absolute line numbers by
+" pressing ^N.
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set norelativenumber
+    set number
+    highlight LineNr ctermfg=darkgray
+  else
+    set relativenumber
+    highlight LineNr ctermfg=gray
+  endif
+endfunc
+nnoremap <C-n> :call NumberToggle()<CR>
 
 " Show whitespace in a useful fashion.  Note this disables the `linebreak`
 " setting, so to `set linebreak` you'll also need to `set nolist`.
