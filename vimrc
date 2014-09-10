@@ -1,32 +1,32 @@
-" Handy vanilla Vim settings
-set background=dark
-set incsearch
-set wildmenu
-set wildmode=longest,list
+" Stop using vi-compatible settings!
+set nocompatible
+
+" Keep using the current indent level when starting a new line.
+set autoindent
+
+" Make backspace useful.
 set backspace=indent,eol,start
+
+" Always have a status line and the current position in the file.
 set laststatus=2
 set ruler
 
-" Ironman mode
-"map <Left> <Nop>
-"map <Right> <Nop>
-"map <Up> <Nop>
-"map <Down> <Nop>
-"imap <Left> <Nop>
-"imap <Right> <Nop>
-"imap <Up> <Nop>
-"imap <Down> <Nop>
+" Show details of selected text when selecting it.
+set showcmd
 
-" Indenting things
-set autoindent
-set expandtab
-set smarttab
-set shiftwidth=2
-set tabstop=2
-" Special Python indenting
-au FileType python setl sw=4
+" Use incremental search.
+set incsearch
 
-" Line number toggling
+" Tab completion of Vim commands.
+set wildmenu
+set wildmode=longest,list
+
+" Put the relative line number in the margin.
+set relativenumber
+highlight LineNr ctermfg=gray
+
+" Allow toggling between relative numbers and absolute line numbers by
+" pressing ^N.
 function! NumberToggle()
   if(&relativenumber == 1)
     set norelativenumber
@@ -38,11 +38,6 @@ function! NumberToggle()
   endif
 endfunc
 nnoremap <C-n> :call NumberToggle()<CR>
-set relativenumber
-highlight LineNr ctermfg=gray
-
-" Mail command
-command Mail !email.sh 'tal@intranet.datcon.co.uk' %
 
 " Simple plugin settings
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
