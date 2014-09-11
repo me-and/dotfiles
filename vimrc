@@ -39,6 +39,36 @@ function! NumberToggle()
 endfunc
 nnoremap <C-n> :call NumberToggle()<CR>
 
+" Show whitespace in a useful fashion.  Note this disables the `linebreak`
+" setting, so to `set linebreak` you'll also need to `set nolist`.
+set list listchars=tab:\ \ ,trail:-
+
+" When entering a bracket, show its partner.
+set showmatch
+
+" If using the spell checker, we're writing in British English.
+set spelllang=en_gb
+
+" If we support it (added in Vim 7.4), have the value of shiftwidth follow
+" that of tabstop, and the value of softtabstop follow shiftwidth.
+if version >= 704
+	set shiftwidth=0
+	set softtabstop=-1
+endif
+
+" Search for selected text, forwards or backwards (taken from
+" <http://vim.wikia.com/wiki/Search_for_visually_selected_text>).
+vnoremap <silent> * :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy/<C-R><C-R>=substitute(
+  \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+vnoremap <silent> # :<C-U>
+  \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+  \gvy?<C-R><C-R>=substitute(
+  \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+  \gV:call setreg('"', old_reg, old_regtype)<CR>
+
 " Simple plugin settings
 let g:ctrlp_match_func = {'match' : 'matcher#cmatch' }
 let g:rainbow_active = 1
