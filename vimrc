@@ -67,7 +67,7 @@ set tags=./tags;/
 " Syntax higlighting is big and clever.
 syntax enable
 
-" If using the spell checker, we're writing in British English
+" If using the spell checker, we're writing in British English.
 set spelllang=en_gb
 
 " If we support it (added in Vim 7.4), have the value of shiftwidth follow
