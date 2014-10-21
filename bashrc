@@ -110,7 +110,16 @@ if [[ $(type -t __git_ps1) == function ]]; then
     GIT_PS1_SHOWUPSTREAM='auto'
     GIT_PS1_DESCRIBE_STYLE='branch'
     GIT_PS1_SHOWCOLORHINTS=yes
-    PROMPT_COMMAND="__git_ps1 '$ps1_pre_git\[\e$ANSI_UNCOLOUR\]' '$ps1_post_git'"
+    if [[ $(hostname) == northrend.tastycake.net ]]; then
+        # On Tastycake, it seems using __git_ps1 in PROMPT_COMMAND doesn't
+        # work.  I suspect it's something to do with the version of
+        # git-prompt.sh that's being used, but I can't work out the details
+        # well enough to fix it.  In the meantime, just build a regular PS1 and
+        # cope with the lack of colour in the Git part of the prompt.
+        PS1="$ps1_pre_git\[\e\$ANSI_UNCOLOUR\]\$(__git_ps1)$ps1_post_git"
+    else
+        PROMPT_COMMAND="__git_ps1 '$ps1_pre_git\[\e$ANSI_UNCOLOUR\]' '$ps1_post_git'"
+    fi
 else
     # No __git_ps1, so just create a regular PS1 from the variables we built.
     PS1=$ps1_pre_git$ps1_post_git
