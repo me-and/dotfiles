@@ -66,42 +66,65 @@ case $(hostname) in
     PC4306)
         hostname_colour=$ANSI_GREEN
         pwd_colour=$ANSI_YELLOW
-        git_colour=$ANSI_RED
         timestamp_colour=$ANSI_BLUE
         ;;
     northrend.tastycake.net)
         hostname_colour=$ANSI_CYAN
         pwd_colour=$ANSI_GREEN
-        git_colour=$ANSI_BLUE
         timestamp_colour=$ANSI_RED
         ;;
     Hendrix)
         hostname_colour=$ANSI_GREEN
         pwd_colour=$ANSI_MAGNETA
-        git_colour=$ANSI_YELLOW
         timestamp_colour=$ANSI_CYAN
+        ;;
+    centosvm)
+        hostname_colour=$ANSI_YELLOW
+        pwd_colour=$ANSI_RED
+        timestamp_colour=$ANSI_GREEN
         ;;
     *)
         hostname_colour=$ANSI_WHITE
         pwd_colour=$ANSI_YELLOW
-        git_colour=$ANSI_RED
         timestamp_colour=$ANSI_BLUE
         ;;
 esac
 
-# Now we can set the prompt!  Store it in OLD_PS1, too, in case I want to hack
-# around with it.
-PS1="\[\e$ANSI_RESET\]"  # Start by resetting terminal colours
-PS1="$PS1\\[\\e]0;\\h:\\w\\a\\]"  # Terminal title
-PS1="$PS1\\n\[\e\$hostname_colour\]\\u@\\h "  # Host
-PS1="$PS1\[\e\$pwd_colour\]\\w"  # Working directory
-if [[ $(type -t __git_ps1) == function ]]
-then
-    PS1="$PS1\[\e\$ANSI_UNCOLOUR\]\$(__git_ps1)"
+# Set the prompt.  If __git_ps1 is available from git-prompt.sh, we want to use
+# PROMPT_COMMAND with that function, which requires separate variables for the
+# bits going before and after the Git prompt.
+ps1_pre_git="\[\e$ANSI_RESET\]"  # Start by resetting terminal colours
+ps1_pre_git="$ps1_pre_git\\[\\e]0;\\h:\\w\\a\\]"  # Terminal title
+ps1_pre_git="$ps1_pre_git\\n\[\e\$hostname_colour\]\\u@\\h "  # Host
+ps1_pre_git="$ps1_pre_git\[\e\$pwd_colour\]\\w"  # Working directory
+ps1_post_git=" \[\e\$timestamp_colour\]\\D{%a %e %b %T}"
+ps1_post_git="$ps1_post_git\[\e\$ANSI_UNCOLOUR\]\\n\\$ "  # Finish, newline, prompt
+
+if [[ $(type -t __git_ps1) == function ]]; then
+    # Build the prompt every time using __git_ps1 per the instructions in the
+    # header to git-prompt.sh.  Enable all the options; they can be turned off
+    # on a per-repository basis if necessaray.
+    GIT_PS1_SHOWDIRTYSTATE=yes
+    GIT_PS1_SHOWSTASHSTATE=yes
+    GIT_PS1_SHOWUNTRACKEDFILES=yes
+    GIT_PS1_SHOWUPSTREAM='auto'
+    GIT_PS1_DESCRIBE_STYLE='branch'
+    GIT_PS1_SHOWCOLORHINTS=yes
+    if [[ $(hostname) == northrend.tastycake.net ]]; then
+        # On Tastycake, it seems using __git_ps1 in PROMPT_COMMAND doesn't
+        # work.  I suspect it's something to do with the version of
+        # git-prompt.sh that's being used, but I can't work out the details
+        # well enough to fix it.  In the meantime, just build a regular PS1 and
+        # cope with the lack of colour in the Git part of the prompt.
+        PS1="$ps1_pre_git\[\e\$ANSI_UNCOLOUR\]\$(__git_ps1)$ps1_post_git"
+    else
+        PROMPT_COMMAND="__git_ps1 '$ps1_pre_git\[\e$ANSI_UNCOLOUR\]' '$ps1_post_git'"
+    fi
+else
+    # No __git_ps1, so just create a regular PS1 from the variables we built.
+    PS1=$ps1_pre_git$ps1_post_git
 fi
-PS1="$PS1 \[\e\$timestamp_colour\]\\D{%a %e %b %T}"
-PS1="$PS1\[\e$ANSI_UNCOLOUR\]\\n\\$ "  # Finish, newline, prompt
-OLD_PS1=$PS1
+unset ps1_pre_git ps1_post_git
 
 # For good measure, a function for setting the terminal emulator title.
 set_terminal_title () {
@@ -126,7 +149,7 @@ alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
 # Editor
-export VISUAL=/usr/bin/vim
+export VISUAL=vim
 
 # When calling cscope, I generally want some useful default arguments: -k
 # ignores the standard include directories (I'm rarely interested in those
@@ -134,16 +157,6 @@ export VISUAL=/usr/bin/vim
 # speed, and -b stops cscope launching its interactive mode (why would I want
 # that when I can launch vim directly!?).
 alias cscope='cscope -kRqb'
-
-# And pick up the tip of the Python Markdown module, assuming it exists.
-#
-# @@TODO Make this more friendly somehow -- it shouldn't be so dependent on the
-# layout of my code trees.
-if [[ -d ~/vcs/ext/Python-Markdown &&
-      -r ~/vcs/ext/Python-Markdown &&
-      -x ~/vcs/ext/Python-Markdown ]]; then
-    export PYTHONPATH=/home/add/vcs/ext/Python-Markdown
-fi
 
 # Simple random number generator.  Not even vaguely secure.
 function rand {
