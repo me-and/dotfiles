@@ -140,7 +140,7 @@ alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
 # Editor
-export VISUAL=/usr/bin/vim
+export VISUAL=vim
 
 # When calling cscope, I generally want some useful default arguments: -k
 # ignores the standard include directories (I'm rarely interested in those
