@@ -66,31 +66,26 @@ case $(hostname) in
     PC4306)
         hostname_colour=$ANSI_GREEN
         pwd_colour=$ANSI_YELLOW
-        git_colour=$ANSI_RED
         timestamp_colour=$ANSI_BLUE
         ;;
     northrend.tastycake.net)
         hostname_colour=$ANSI_CYAN
         pwd_colour=$ANSI_GREEN
-        git_colour=$ANSI_BLUE
         timestamp_colour=$ANSI_RED
         ;;
     Hendrix)
         hostname_colour=$ANSI_GREEN
         pwd_colour=$ANSI_MAGNETA
-        git_colour=$ANSI_YELLOW
         timestamp_colour=$ANSI_CYAN
         ;;
     centosvm)
         hostname_colour=$ANSI_YELLOW
         pwd_colour=$ANSI_RED
-        git_colour=$ANSI_BLUE
         timestamp_colour=$ANSI_RED
         ;;
     *)
         hostname_colour=$ANSI_WHITE
         pwd_colour=$ANSI_YELLOW
-        git_colour=$ANSI_RED
         timestamp_colour=$ANSI_BLUE
         ;;
 esac
