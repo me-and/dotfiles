@@ -1,16 +1,7 @@
-# .bash_profile
-
-# Get the aliases and functions
-if [ -f ~/.bashrc ]; then
-	. ~/.bashrc
+if [[ -r ~/.profile ]]; then
+    . ~/.profile
 fi
 
-# User specific environment and startup programs
-
-export http_proxy=
-export ftp_proxy=
-
-PATH=$PATH:$HOME/bin
-
-export PATH
-export LD_LIBRARY_PATH=.:$HOME/lib
+if [[ -r ~/.bashrc ]]; then
+    . ~/.bashrc
+fi
