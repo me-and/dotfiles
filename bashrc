@@ -135,16 +135,6 @@ export VISUAL=/usr/bin/vim
 # that when I can launch vim directly!?).
 alias cscope='cscope -kRqb'
 
-# And pick up the tip of the Python Markdown module, assuming it exists.
-#
-# @@TODO Make this more friendly somehow -- it shouldn't be so dependent on the
-# layout of my code trees.
-if [[ -d ~/vcs/ext/Python-Markdown &&
-      -r ~/vcs/ext/Python-Markdown &&
-      -x ~/vcs/ext/Python-Markdown ]]; then
-    export PYTHONPATH=/home/add/vcs/ext/Python-Markdown
-fi
-
 # Simple random number generator.  Not even vaguely secure.
 function rand {
     echo $(( (RANDOM % $1) + 1 ))
