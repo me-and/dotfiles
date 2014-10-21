@@ -46,6 +46,10 @@ set list listchars=tab:\ \ ,trail:-
 " When entering a bracket, show its partner.
 set showmatch
 
+" Insert the comment leader when hitting Enter within a comment in Insert
+" mode, or when hitting o/O in Normal mode.
+set formatoptions+=r formatoptions+=o
+
 " If using the spell checker, we're writing in British English.
 set spelllang=en_gb
 
