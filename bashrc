@@ -95,19 +95,32 @@ case $(hostname) in
         ;;
 esac
 
-# Now we can set the prompt!  Store it in OLD_PS1, too, in case I want to hack
-# around with it.
-PS1="\[\e$ANSI_RESET\]"  # Start by resetting terminal colours
-PS1="$PS1\\[\\e]0;\\h:\\w\\a\\]"  # Terminal title
-PS1="$PS1\\n\[\e\$hostname_colour\]\\u@\\h "  # Host
-PS1="$PS1\[\e\$pwd_colour\]\\w"  # Working directory
-if [[ $(type -t __git_ps1) == function ]]
-then
-    PS1="$PS1\[\e\$ANSI_UNCOLOUR\]\$(__git_ps1)"
+# Set the prompt.  If __git_ps1 is available from git-prompt.sh, we want to use
+# PROMPT_COMMAND with that function, which requires separate variables for the
+# bits going before and after the Git prompt.
+ps1_pre_git="\[\e$ANSI_RESET\]"  # Start by resetting terminal colours
+ps1_pre_git="$ps1_pre_git\\[\\e]0;\\h:\\w\\a\\]"  # Terminal title
+ps1_pre_git="$ps1_pre_git\\n\[\e\$hostname_colour\]\\u@\\h "  # Host
+ps1_pre_git="$ps1_pre_git\[\e\$pwd_colour\]\\w"  # Working directory
+ps1_post_git=" \[\e\$timestamp_colour\]\\D{%a %e %b %T}"
+ps1_post_git="$ps1_post_git\[\e\$ANSI_UNCOLOUR\]\\n\\$ "  # Finish, newline, prompt
+
+if [[ $(type -t __git_ps1) == function ]]; then
+    # Build the prompt every time using __git_ps1 per the instructions in the
+    # header to git-prompt.sh.  Enable all the options; they can be turned off
+    # on a per-repository basis if necessaray.
+    GIT_PS1_SHOWDIRTYSTATE=yes
+    GIT_PS1_SHOWSTASHSTATE=yes
+    GIT_PS1_SHOWUNTRACKEDFILES=yes
+    GIT_PS1_SHOWUPSTREAM='auto'
+    GIT_PS1_DESCRIBE_STYLE='branch'
+    GIT_PS1_SHOWCOLORHINTS=yes
+    PROMPT_COMMAND="__git_ps1 '$ps1_pre_git\[\e$ANSI_UNCOLOUR\]' '$ps1_post_git'"
+else
+    # No __git_ps1, so just create a regular PS1 from the variables we built.
+    PS1=$ps1_pre_git$ps1_post_git
 fi
-PS1="$PS1 \[\e\$timestamp_colour\]\\D{%a %e %b %T}"
-PS1="$PS1\[\e$ANSI_UNCOLOUR\]\\n\\$ "  # Finish, newline, prompt
-OLD_PS1=$PS1
+unset ps1_pre_git ps1_post_git
 
 # For good measure, a function for setting the terminal emulator title.
 set_terminal_title () {
