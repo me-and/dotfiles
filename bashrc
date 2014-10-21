@@ -81,7 +81,7 @@ case $(hostname) in
     centosvm)
         hostname_colour=$ANSI_YELLOW
         pwd_colour=$ANSI_RED
-        timestamp_colour=$ANSI_RED
+        timestamp_colour=$ANSI_GREEN
         ;;
     *)
         hostname_colour=$ANSI_WHITE
