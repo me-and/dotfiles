@@ -13,6 +13,6 @@ BellFlash=yes
 Blue=85,85,255
 BoldBlue=127,127,255
 CursorColour=0,255,0
-BellSound=no
+BellSound=yes
 BackspaceSendsBS=yes
 Charset=UTF-8
