@@ -22,13 +22,13 @@ shopt -s histappend
 # Check the window size after each command, updating LINES and COLUMNS.
 shopt -s checkwinsize
 
-# Expand ** for directory parsing
+# Expand ** for directory parsing.
 shopt -s globstar
 
-# Don't exit if there are running jobs
+# Don't exit if there are running jobs.
 shopt -s checkjobs
 
-# Make less more friendly
+# Make less more friendly.
 if [[ -x /usr/bin/lesspipe ]]; then
     eval "$(/usr/bin/lesspipe)"  # Seen on Debian
 elif [[ -x /usr/bin/lesspipe.sh ]]; then
