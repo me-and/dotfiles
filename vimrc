@@ -25,7 +25,9 @@ set incsearch
 set wildmenu
 set wildmode=longest,list
 
-" Put the relative line number in the margin.
+" Put the relative line number in the margin, with the current line listed
+" with its current line number.
+set number
 set relativenumber
 highlight LineNr ctermfg=gray
 
