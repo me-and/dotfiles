@@ -84,7 +84,7 @@ case $(hostname) in
         pwd_colour=$ANSI_MAGNETA
         timestamp_colour=$ANSI_CYAN
         ;;
-    centosvm)
+    centosvm?(-add))
         hostname_colour=$ANSI_YELLOW
         pwd_colour=$ANSI_RED
         timestamp_colour=$ANSI_GREEN
