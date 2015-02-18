@@ -1,0 +1,73 @@
+[core]
+	excludesfile = /home/adam/.gitignore
+[color]
+	ui = true
+[user]
+	name = Adam Dinwoodie
+	email = adam@dinwoodie.org
+[log]
+	decorate = short
+[rerere]
+	enabled = true
+[receive]
+	denyCurrentBranch = refuse
+[grep]
+	lineNumber = true
+[merge]
+	conflictstyle = diff3
+[rebase]
+	autosquash = true
+[svn]
+	pushmergeinfo = true
+[alias]
+	# When using bashisms below (notably [[ ... ]]), make sure to invoke
+	# bash explicitly -- on Debian, Git aliases beginning with "!" are
+	# invoked in dash by default.
+
+	# Simple short forms
+	st = status
+	co = checkout
+	ci = commit
+	h = help
+
+	# More complicated shortcuts
+	about = describe --all --always
+	raw = show --format=raw
+	amend = commit --amend -C HEAD
+	ita = add --intent-to-add
+	rm-cur-br = "!bash -c 'br=$(git symbolic-ref HEAD | cut -b 12-); git detach; if [[ $1 == -D ]]; then git branch -D $br; else git branch -d $br; fi' --"
+	lug = log -u
+
+	# Graphical logs
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit --date-order
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all --date-order
+	lolas = "!f() { git log --graph --decorate --pretty=oneline --abbrev-commit --all --date-order $(git stash list | sed -r 's/(stash@\\{[0-9]+\\}):.*$/\\1/');}; f"
+
+	# Use HEAD^0 to specify HEAD's tree, rather than --detach, on the
+	# grounds that Git 1.7.2.5 (as used on northrend.tastycake.net) doesn't
+	# support the latter.
+	detach = checkout -q HEAD^0
+
+	# Repository information
+	list-all-objs = "!f() { { git rev-list --objects --all; git rev-list --objects -g --no-walk --all; git rev-list --objects --no-walk $(git fsck --unreachable | grep '^unreachable commit' | cut -d' ' -f3);} | cut -d' ' -f1 | sort | uniq;}; f"
+	roots = "!f() { git rev-list --parents \"$@\" | grep -E \"^[a-f0-9]{40}$\";}; f"
+
+	# Fancy checkouts
+	sci = svn dcommit
+	sreb = svn rebase
+	upout = !bash -c 'git checkout \"$@\" && git svn rebase' --
+	pullout = "!bash -c 'git checkout \"$@\"; git pull' --"
+	rebout = !bash -c 'git checkout \"$@\" && git rebase' --
+
+	# Conflict handling
+	conflicting = !bash -c '[[ -n $(git ls-files --unmerged) ]]'
+	conflicts = "!cd ${GIT_PREFIX:-.}; git ls-files --unmerged | cut -f2 | sort -u"
+
+	# Alias management
+	alias = "!bash -c 'while getopts d:e opt; do case $opt in d) del=$OPTARG;; e) exec=yes;; esac; done; shift $((OPTIND - 1)); if [[ -n $del ]]; then git unalias $del; elif (( $# == 0 )); then git list-aliases; elif (( $# == 1 )); then git config --get \"alias.$1\"; elif [[ -n $exec ]]; then git set-alias-exec \"$@\"; else git set-alias \"$@\"; fi' --"
+	list-aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/ / = /' | sort
+	set-alias = "!bash -c 'alias=\"$1\"; shift; git config --global alias.\"$alias\" \"$*\"' --"
+	set-alias-exec = "!bash -c 'alias=\"$1\"; shift; git set-alias \"$alias\" \"!bash -c '\\''$@'\\'' --\"' --"
+	unalias = !bash -c 'git config --global --unset alias.\"$1\"' --
+[url "git@github.com:"]
+	pushInsteadOf = git://github.com/
