@@ -139,7 +139,7 @@ Bundle 'rking/ag.vim'
 
 " Gitlab repos
 " Sign up to Gitlab and then comment these in!
-"Bundle 'ssh://git@gitlab.datcon.co.uk/vimips.git'
+Bundle 'ssh://git@gitlab.datcon.co.uk/vimips.git'
 "Bundle 'ssh://git@gitlab.datcon.co.uk/autocomment.git'
 
 filetype plugin on " Required for Vundle
