@@ -120,7 +120,7 @@ let g:ctrlp_custom_ignore = {
 
 " Tag searching wth CtrlP
 map <C-o> :CtrlPGtags<CR>
-set rtp+=$HOME/.vim/bundle/CtrlPGtags
+set rtp+=$HOME/.vim/bundle/ctrlpgtags
 
 " Vundle options:
 set rtp+=~/.vim/bundle/vundle
@@ -141,6 +141,7 @@ Bundle 'rking/ag.vim'
 " Sign up to Gitlab and then comment these in!
 Bundle 'ssh://git@gitlab.datcon.co.uk/vimips.git'
 "Bundle 'ssh://git@gitlab.datcon.co.uk/autocomment.git'
+Bundle 'ssh://git@gitlab.datcon.co.uk/ctrlpgtags.git'
 
 filetype plugin on " Required for Vundle
 "
