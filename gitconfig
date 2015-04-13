@@ -60,7 +60,6 @@
 	sci = svn dcommit
 	sreb = svn rebase
 	rev-to-hash = "!bash -c 'while getopts b: opt; do case $opt in b) branch=$OPTARG;; esac; done; shift $((OPTIND - 1)); while (( $# > 0 )); do count=0; for r in $(git svn find-rev r$1 $branch); do if [[ $r == +([0-9a-f]) ]]; then (( count++ )); echo $r; fi; done; if (( count != 1 )); then echo \"Caution: found $count commits for r$1\" >&2; fi; shift; done' --"
-	rewrite-merged-msgs = "filter-branch -f --msg-filter 'sed \"/^Conflicts:\\$/,\\$d;s/.*repos\\/sbc\\/\\([^@]*\\)@\\([0-9]*\\).*/This is a semi-automatic merge of r\\2 from \\1./;/^\\!/d;/^-\\!/d;/Merged r.* via automerge/d\" | cat -s' --"
 
 	# Conflict handling
 	conflicting = !bash -c '[[ -n $(git ls-files --unmerged) ]]'
