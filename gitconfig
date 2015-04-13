@@ -79,3 +79,6 @@
 	set-alias = "!bash -c 'alias=\"$1\"; shift; git config --global alias.\"$alias\" \"$*\"' --"
 	set-alias-exec = "!bash -c 'alias=\"$1\"; shift; git set-alias \"$alias\" \"!bash -c '\\''$@'\\'' --\"' --"
 	unalias = !bash -c 'git config --global --unset alias.\"$1\"' --
+[include]
+	# Put this at the bottom, so local values will override remote ones.
+	path = .gitlocalconfig
