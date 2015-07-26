@@ -295,3 +295,5 @@ alias unnice='nice -n -10'
 if command -v cygpath >/dev/null; then
     alias wpwd='cygpath -w $(pwd)'
 fi
+
+alias snarf='aria2c -x16 -s16'
