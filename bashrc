@@ -15,6 +15,10 @@ if [[ -z $BASH_COMPLETION && -r /etc/bash_completion ]] && ! shopt -oq posix
 then
     . /etc/bash_completion
 fi
+if [[ -z $BASH_COMPLETION && -r /usr/local/etc/bash_completion ]] &&
+        ! shopt -oq posix; then
+    . /usr/local/etc/bash_completion
+fi
 
 # Append to the history file rather than overwriting it.
 shopt -s histappend
