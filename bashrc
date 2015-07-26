@@ -22,6 +22,9 @@ fi
 
 # Enable the fancy Git prompt if it's available, which includes printing the
 # last return code on each shell prompt too.
+#
+# @@TODO Set up custom themes a la the custom colour themes defined for PS1 on
+# other systems below.
 if [[ -f "/usr/local/opt/bash-git-prompt/share/gitprompt.sh" ]]; then
     GIT_PROMPT_THEME=Default
     source "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
