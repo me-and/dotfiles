@@ -186,34 +186,6 @@ alias such=git
 alias very=git
 alias wow='git status'
 
-# Tree grep.  The final argument should be the file glob pattern to use, as for
-# use in a call to find.  Beware using wildcards, eg *; these should be quoted
-# else they'll be expanded before find gets to them.
-function tgrep {
-    # Check there's at least two arguments (term to search for and file glob)
-    if (( $# < 2 ))
-    then
-        echo 'Insufficient arguments to tgrep' >&2
-        return 1
-    fi
-
-    # All bar the last argument will be passed to grep.
-    for (( ii=0 ; $# > 1 ; ii++ ))
-    do
-        greparg[ii]="$1"
-        shift
-    done
-
-    # The last argument is the file glob for find to use.
-    glob="$1"
-
-    # And run the command
-    find * -type f -name "$glob" -exec grep "${greparg[@]}" {} +
-
-    unset greparg
-    unset glob
-}
-
 # Helper functions to check the big glowing ball o'doom.
 #
 # @@TODO Disable this where it doesn't make sense.  Hive off into a per-PC
@@ -237,22 +209,6 @@ function doom_colour {
         echo Red
     fi
 }
-# @@Commented out because it's now so very rare that I care about the ball of
-# doom.
-# function git {
-#     if [[ (($1 == svn) && ($2 == dcommit)) || ($1 == sci) ]]; then
-#         check_doom && command git "$@"
-#     else
-#         command git "$@"
-#     fi
-# }
-# function svn {
-#     if [[ ($1 == ci) || ($1 == commit) ]]; then
-#         check_doom && command svn "$@"
-#     else
-#         command svn "$@"
-#     fi
-# }
 
 # Helper function for copying ID to a remote system then connecting to it.
 #
@@ -288,10 +244,6 @@ export DISPLAY=:0.0
 # @@TODO These also need hiving off
 function gitk {
     command gitk "$@" &
-    disown
-}
-function vs {
-    command vs $(cygpath -w "$1") &
     disown
 }
 
