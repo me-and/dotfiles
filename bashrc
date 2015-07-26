@@ -167,6 +167,7 @@ alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
 # Editor
+export EDITOR=vim
 export VISUAL=vim
 
 # When calling cscope, I generally want some useful default arguments: -k
