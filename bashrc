@@ -151,8 +151,15 @@ if [[ -x /usr/bin/dircolors ]]; then
     fi
 fi
 
-# And colour the output of useful commands
-alias ls='ls --color=auto'
+# And colour the output of useful commands.  On OS X, the argument to get
+# colours for `ls` is `-G`, not `--color=auto`.  No need to worry about
+# commands that don't exist -- defining aliases for them doesn't cause any
+# problems.
+if ls --color=auto 2>/dev/null; then
+    alias ls='ls --color=auto'
+else
+    alias ls='ls -G'
+fi
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
