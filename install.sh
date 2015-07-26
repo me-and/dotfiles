@@ -99,11 +99,20 @@ if command -v mutt >/dev/null; then
     if mutt -v | grep -q 'Mutt 1.5.21' ||
         confirm_continue "Mutt version information not recognized. Continue?"
     then
-        link_dot -f "$DIR/muttrc" ~/.muttrc
+        link_dot "$DIR/muttrc" ~/.muttrc
     fi
 fi
 
 if command -v git >/dev/null; then
     link_dot "$DIR/gitconfig" ~/.gitconfig
     link_dot "$DIR/gitignore" ~/.gitignore
+fi
+
+if command -v gpg >/dev/null; then
+    mkdir -p ~/.gnupg
+    link_dot "$DIR/gnupg/gpg.conf" ~/.gnupg/gpg.conf
+fi
+
+if command -v pine >/dev/null; then
+    link_dot "$DIR/pinerc" ~/.pinerc
 fi
