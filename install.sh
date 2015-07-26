@@ -96,5 +96,5 @@ if command -v irssi >/dev/null; then
 fi
 
 if command -v mutt >/dev/null; then
-    link_dot -f "$DIR/muttrc" ~/.muttrc
+    link_dot "$DIR/muttrc" ~/.muttrc
 fi
