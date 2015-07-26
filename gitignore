@@ -1,0 +1,8 @@
+*.pyc
+~$*.doc
+.*.swp
+*.vtg
+tags
+cscope.out
+cscope.in.out
+cscope.po.out
