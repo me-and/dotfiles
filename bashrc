@@ -20,6 +20,13 @@ if [[ -z $BASH_COMPLETION && -r /usr/local/etc/bash_completion ]] &&
     . /usr/local/etc/bash_completion
 fi
 
+# Enable the fancy Git prompt if it's available, which includes printing the
+# last return code on each shell prompt too.
+if [[ -f "/usr/local/opt/bash-git-prompt/share/gitprompt.sh" ]]; then
+    GIT_PROMPT_THEME=Default
+    source "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
+fi
+
 # Append to the history file rather than overwriting it.
 shopt -s histappend
 
