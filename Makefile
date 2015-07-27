@@ -1,3 +1,5 @@
+SHELL = bash
+
 DESTDIR :=  $(wildcard ~)
 
 VIMDIRS := $(addprefix vim/, ftdetect ftplugin plugin spell syntax)
