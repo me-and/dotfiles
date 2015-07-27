@@ -74,7 +74,7 @@ if [[ -f "/usr/local/opt/bash-git-prompt/share/gitprompt.sh" ]]; then
     # @@TODO If possible, render the non bash-git-prompt based version
     # irrelevant by including it as standard.
     GIT_PROMPT_THEME=Default
-    source "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
+    . "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
 else
     # Determine the colour to display the hostname.  Useful for determining at
     # a glance what system I'm connected to!
