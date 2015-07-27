@@ -257,6 +257,32 @@ function create_sfr_dir {
     cd ~/sfrlocal/sfr$1
     [[ -e sfr$1 ]] || ln -s ~/sfrs/sfr$1
 }
+function unpack_diags {
+    while (( $# > 0 )); do
+        file=$1
+        dir=$(basename "$file" | sed -nr 's/^([-a-zA-Z0-9_\(\)]*)\.tar\.gz/\1/p')
+        mkdir "$dir" && tar -C "$dir" -xzf "$file" &
+        shift
+    done
+    wait
+}
+
+function cdis {
+    if (( $# != 1 )); then
+        echo Incorrect number of arguments >&2
+        return 1
+    fi
+    cd ~/issues/issue"$1"
+}
+
+function cdsf {
+    if (( $# != 1 )); then
+        echo Incorrect number of arguments >&2
+        return 1
+    fi
+    cd ~/sfrs/sfr"$1"
+}
+
 
 # Set up DISPLAY so X works
 #
