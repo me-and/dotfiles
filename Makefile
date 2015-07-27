@@ -11,7 +11,7 @@ IRSSIFILES := irssi/config $(wildcard irssi/*.theme) \
 
 GITFILES := gitconfig gitignore
 
-ALLREGULARDIRS := $(VIMDIRS) gnupg $(IRSSIDIRS)
+ALLDIRS := $(VIMDIRS) gnupg ssh $(IRSSIDIRS)
 ALLFILES := $(VIMFILES) startxwinrc ctags minttyrc $(BASHFILES) ssh/config \
 	    $(IRSSIFILES) muttrc $(GITFILES) gnupg/gpg.conf pinerc
 
@@ -109,14 +109,8 @@ install-git : $(addprefix $(DESTDIR)/.,$(GITFILES))
 install-gpg : $(DESTDIR)/.gnupg/gpg.conf
 install-pine : $(DESTDIR)/.pinerc
 
-$(addprefix $(DESTDIR)/.,$(ALLREGULARDIRS)) :
+$(addprefix $(DESTDIR)/.,$(ALLDIRS)) :
 	mkdir -p $@
-
-# The .ssh directory needs an extra rule to cover setting the permissions
-# correctly.
-$(DESTDIR)/.ssh :
-	mkdir -p $@
-	chmod 755 $@
 
 .SECONDEXPANSION :
 $(addprefix $(DESTDIR)/.,$(ALLFILES)) : \
