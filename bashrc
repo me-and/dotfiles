@@ -15,6 +15,10 @@ if [[ -z $BASH_COMPLETION && -r /etc/bash_completion ]] && ! shopt -oq posix
 then
     . /etc/bash_completion
 fi
+if [[ -z $BASH_COMPLETION && -r /usr/local/etc/bash_completion ]] &&
+        ! shopt -oq posix; then
+    . /usr/local/etc/bash_completion
+fi
 
 # Append to the history file rather than overwriting it.
 shopt -s histappend
@@ -60,71 +64,85 @@ ANSI_BG_CYAN='[46m'
 ANSI_BG_WHITE='[47m'
 ANSI_BG_UNCOLOUR='[49m'
 
-# Determine the colour to display the hostname.  Useful for determining at a
-# glance what system I'm connected to!
-case $(hostname) in
-    PC4306)
-        hostname_colour=$ANSI_GREEN
-        pwd_colour=$ANSI_YELLOW
-        timestamp_colour=$ANSI_BLUE
-        ;;
-    northrend.tastycake.net)
-        hostname_colour=$ANSI_CYAN
-        pwd_colour=$ANSI_GREEN
-        timestamp_colour=$ANSI_RED
-        ;;
-    Hendrix)
-        hostname_colour=$ANSI_GREEN
-        pwd_colour=$ANSI_MAGNETA
-        timestamp_colour=$ANSI_CYAN
-        ;;
-    centosvm)
-        hostname_colour=$ANSI_YELLOW
-        pwd_colour=$ANSI_RED
-        timestamp_colour=$ANSI_GREEN
-        ;;
-    *)
-        hostname_colour=$ANSI_WHITE
-        pwd_colour=$ANSI_YELLOW
-        timestamp_colour=$ANSI_BLUE
-        ;;
-esac
-
-# Set the prompt.  If __git_ps1 is available from git-prompt.sh, we want to use
-# PROMPT_COMMAND with that function, which requires separate variables for the
-# bits going before and after the Git prompt.
-ps1_pre_git="\[\e$ANSI_RESET\]"  # Start by resetting terminal colours
-ps1_pre_git="$ps1_pre_git\\[\\e]0;\\h:\\w\\a\\]"  # Terminal title
-ps1_pre_git="$ps1_pre_git\\n\[\e\$hostname_colour\]\\u@\\h "  # Host
-ps1_pre_git="$ps1_pre_git\[\e\$pwd_colour\]\\w"  # Working directory
-ps1_post_git=" \[\e\$timestamp_colour\]\\D{%a %e %b %T}"
-ps1_post_git="$ps1_post_git\[\e\$ANSI_UNCOLOUR\]\\n\\$ "  # Finish, newline, prompt
-
-if [[ $(type -t __git_ps1) == function ]]; then
-    # Build the prompt every time using __git_ps1 per the instructions in the
-    # header to git-prompt.sh.  Enable all the options; they can be turned off
-    # on a per-repository basis if necessaray.
-    GIT_PS1_SHOWDIRTYSTATE=yes
-    GIT_PS1_SHOWSTASHSTATE=yes
-    GIT_PS1_SHOWUNTRACKEDFILES=yes
-    GIT_PS1_SHOWUPSTREAM='auto'
-    GIT_PS1_DESCRIBE_STYLE='branch'
-    GIT_PS1_SHOWCOLORHINTS=yes
-    if [[ $(hostname) == northrend.tastycake.net ]]; then
-        # On Tastycake, it seems using __git_ps1 in PROMPT_COMMAND doesn't
-        # work.  I suspect it's something to do with the version of
-        # git-prompt.sh that's being used, but I can't work out the details
-        # well enough to fix it.  In the meantime, just build a regular PS1 and
-        # cope with the lack of colour in the Git part of the prompt.
-        PS1="$ps1_pre_git\[\e\$ANSI_UNCOLOUR\]\$(__git_ps1)$ps1_post_git"
-    else
-        PROMPT_COMMAND="__git_ps1 '$ps1_pre_git\[\e$ANSI_UNCOLOUR\]' '$ps1_post_git'"
-    fi
+if [[ -f "/usr/local/opt/bash-git-prompt/share/gitprompt.sh" ]]; then
+    # Enable the fancy Git prompt if it's available, which includes printing
+    # the last return code on each shell prompt too.
+    #
+    # @@TODO Set up custom themes a la the custom colour themes defined for PS1
+    # on other systems below.
+    #
+    # @@TODO If possible, render the non bash-git-prompt based version
+    # irrelevant by including it as standard.
+    GIT_PROMPT_THEME=Default
+    . "/usr/local/opt/bash-git-prompt/share/gitprompt.sh"
 else
-    # No __git_ps1, so just create a regular PS1 from the variables we built.
-    PS1=$ps1_pre_git$ps1_post_git
+    # Determine the colour to display the hostname.  Useful for determining at
+    # a glance what system I'm connected to!
+    case $(hostname) in
+        PC4306)
+            hostname_colour=$ANSI_GREEN
+            pwd_colour=$ANSI_YELLOW
+            timestamp_colour=$ANSI_BLUE
+            ;;
+        northrend.tastycake.net)
+            hostname_colour=$ANSI_CYAN
+            pwd_colour=$ANSI_GREEN
+            timestamp_colour=$ANSI_RED
+            ;;
+        Hendrix)
+            hostname_colour=$ANSI_GREEN
+            pwd_colour=$ANSI_MAGNETA
+            timestamp_colour=$ANSI_CYAN
+            ;;
+        centosvm)
+            hostname_colour=$ANSI_YELLOW
+            pwd_colour=$ANSI_RED
+            timestamp_colour=$ANSI_GREEN
+            ;;
+        *)
+            hostname_colour=$ANSI_WHITE
+            pwd_colour=$ANSI_YELLOW
+            timestamp_colour=$ANSI_BLUE
+            ;;
+    esac
+
+    # Set the prompt.  If __git_ps1 is available from git-prompt.sh, we want to
+    # use PROMPT_COMMAND with that function, which requires separate variables
+    # for the bits going before and after the Git prompt.
+    ps1_pre_git="\[\e$ANSI_RESET\]"  # Start by resetting terminal colours
+    ps1_pre_git="$ps1_pre_git\\[\\e]0;\\h:\\w\\a\\]"  # Terminal title
+    ps1_pre_git="$ps1_pre_git\\n\[\e\$hostname_colour\]\\u@\\h "  # Host
+    ps1_pre_git="$ps1_pre_git\[\e\$pwd_colour\]\\w"  # Working directory
+    ps1_post_git=" \[\e\$timestamp_colour\]\\D{%a %e %b %T}"
+    ps1_post_git="$ps1_post_git\[\e\$ANSI_UNCOLOUR\]\\n\\$ "  # Finish, newline, prompt
+
+    if [[ $(type -t __git_ps1) == function ]]; then
+        # Build the prompt every time using __git_ps1 per the instructions in
+        # the header to git-prompt.sh.  Enable all the options; they can be
+        # turned off on a per-repository basis if necessaray.
+        GIT_PS1_SHOWDIRTYSTATE=yes
+        GIT_PS1_SHOWSTASHSTATE=yes
+        GIT_PS1_SHOWUNTRACKEDFILES=yes
+        GIT_PS1_SHOWUPSTREAM='auto'
+        GIT_PS1_DESCRIBE_STYLE='branch'
+        GIT_PS1_SHOWCOLORHINTS=yes
+        if [[ $(hostname) == northrend.tastycake.net ]]; then
+            # On Tastycake, it seems using __git_ps1 in PROMPT_COMMAND doesn't
+            # work.  I suspect it's something to do with the version of
+            # git-prompt.sh that's being used, but I can't work out the details
+            # well enough to fix it.  In the meantime, just build a regular PS1
+            # and cope with the lack of colour in the Git part of the prompt.
+            PS1="$ps1_pre_git\[\e\$ANSI_UNCOLOUR\]\$(__git_ps1)$ps1_post_git"
+        else
+            PROMPT_COMMAND="__git_ps1 '$ps1_pre_git\[\e$ANSI_UNCOLOUR\]' '$ps1_post_git'"
+        fi
+    else
+        # No __git_ps1, so just create a regular PS1 from the variables we
+        # built.
+        PS1=$ps1_pre_git$ps1_post_git
+    fi
+    unset ps1_pre_git ps1_post_git
 fi
-unset ps1_pre_git ps1_post_git
 
 # For good measure, a function for setting the terminal emulator title.
 set_terminal_title () {
@@ -140,8 +158,15 @@ if [[ -x /usr/bin/dircolors ]]; then
     fi
 fi
 
-# And colour the output of useful commands
-alias ls='ls --color=auto'
+# And colour the output of useful commands.  On OS X, the argument to get
+# colours for `ls` is `-G`, not `--color=auto`.  No need to worry about
+# commands that don't exist -- defining aliases for them doesn't cause any
+# problems.
+if ls --color=auto 2>/dev/null; then
+    alias ls='ls --color=auto'
+else
+    alias ls='ls -G'
+fi
 alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
@@ -149,6 +174,7 @@ alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 
 # Editor
+export EDITOR=vim
 export VISUAL=vim
 
 # When calling cscope, I generally want some useful default arguments: -k
@@ -167,34 +193,6 @@ function rand {
 alias such=git
 alias very=git
 alias wow='git status'
-
-# Tree grep.  The final argument should be the file glob pattern to use, as for
-# use in a call to find.  Beware using wildcards, eg *; these should be quoted
-# else they'll be expanded before find gets to them.
-function tgrep {
-    # Check there's at least two arguments (term to search for and file glob)
-    if (( $# < 2 ))
-    then
-        echo 'Insufficient arguments to tgrep' >&2
-        return 1
-    fi
-
-    # All bar the last argument will be passed to grep.
-    for (( ii=0 ; $# > 1 ; ii++ ))
-    do
-        greparg[ii]="$1"
-        shift
-    done
-
-    # The last argument is the file glob for find to use.
-    glob="$1"
-
-    # And run the command
-    find * -type f -name "$glob" -exec grep "${greparg[@]}" {} +
-
-    unset greparg
-    unset glob
-}
 
 # Helper functions to check the big glowing ball o'doom.
 #
@@ -219,22 +217,6 @@ function doom_colour {
         echo Red
     fi
 }
-# @@Commented out because it's now so very rare that I care about the ball of
-# doom.
-# function git {
-#     if [[ (($1 == svn) && ($2 == dcommit)) || ($1 == sci) ]]; then
-#         check_doom && command git "$@"
-#     else
-#         command git "$@"
-#     fi
-# }
-# function svn {
-#     if [[ ($1 == ci) || ($1 == commit) ]]; then
-#         check_doom && command svn "$@"
-#     else
-#         command svn "$@"
-#     fi
-# }
 
 # Helper function for copying ID to a remote system then connecting to it.
 #
@@ -298,10 +280,6 @@ function gitk {
     command gitk "$@" &
     disown
 }
-function vs {
-    command vs $(cygpath -w "$1") &
-    disown
-}
 
 # Helper function for markdown for Metacom articles
 #
@@ -321,3 +299,5 @@ alias unnice='nice -n -10'
 if command -v cygpath >/dev/null; then
     alias wpwd='cygpath -w $(pwd)'
 fi
+
+alias snarf='aria2c -x16 -s16'

@@ -16,6 +16,8 @@
 	prompt = false
 [mergetool]
 	prompt = false
+[merge]
+	conflictstyle = diff3
 [rebase]
 	autosquash = true
 [svn]
@@ -48,6 +50,8 @@
 
 	# Logs
 	lug = log -u
+
+	# Graphical logs
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit --date-order
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all --date-order
 	lolas = "!f() { git log --graph --decorate --pretty=oneline --abbrev-commit --all --date-order $(git stash list | sed -r 's/(stash@\\{[0-9]+\\}):.*$/\\1/');}; f"
@@ -60,6 +64,11 @@
 	sci = svn dcommit
 	sreb = svn rebase
 	rev-to-hash = "!bash -c 'while getopts b: opt; do case $opt in b) branch=$OPTARG;; esac; done; shift $((OPTIND - 1)); while (( $# > 0 )); do count=0; for r in $(git svn find-rev r$1 $branch); do if [[ $r == +([0-9a-f]) ]]; then (( count++ )); echo $r; fi; done; if (( count != 1 )); then echo \"Caution: found $count commits for r$1\" >&2; fi; shift; done' --"
+
+	# Fancy checkouts
+	upout = !bash -c 'git checkout \"$@\" && git svn rebase' --
+	pullout = "!bash -c 'git checkout \"$@\"; git pull' --"
+	rebout = !bash -c 'git checkout \"$@\" && git rebase' --
 
 	# Conflict handling
 	conflicting = !bash -c '[[ -n $(git ls-files --unmerged) ]]'
