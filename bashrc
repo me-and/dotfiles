@@ -242,7 +242,7 @@ function create_sfr_dir {
 function unpack_diags {
     while (( $# > 0 )); do
         file=$1
-        dir=$(basename "$file" | sed -nr 's/^([-a-zA-Z0-9_\(\)]*)\.tar\.gz/\1/p')
+        dir=$(basename "$file" | sed -nr 's/^([-a-zA-Z0-9_\(\)\.]*)\.tar\.gz/\1/p')
         mkdir "$dir" && tar -C "$dir" -xzf "$file" &
         shift
     done
