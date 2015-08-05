@@ -8,9 +8,6 @@ fi
 # How many cores to use when compiling the codebase?
 export DMAKE_MAX_JOBS='4'
 
-# Fuzzy finding files.
-source ~/.fzf.bash
-
 # Don't add lines that start with a space or which duplicate the previous line
 # to the bash history.
 HISTCONTROL=ignoreboth
@@ -21,6 +18,11 @@ if [[ -z $BASH_COMPLETION && -r /etc/bash_completion ]] && ! shopt -oq posix
 then
     . /etc/bash_completion
 fi
+
+# Fuzzy finding files.  Needs to be after bash_completion as it'll break Git
+# completion otherwise.  Should also probably move the repository that provides
+# this to a subproject or something...
+source ~/.fzf.bash
 
 # Append to the history file rather than overwriting it.
 shopt -s histappend
