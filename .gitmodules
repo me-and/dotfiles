@@ -21,4 +21,4 @@
 	url = git@gitlab.datcon.co.uk:vimips.git
 [submodule "vim/bundle/ctrlpgtags"]
 	path = vim/bundle/ctrlpgtags
-	url = ssh://git@gitlab.datcon.co.uk/ctrlpgtags.git
+	url = git@gitlab.datcon.co.uk:ctrlpgtags.git
