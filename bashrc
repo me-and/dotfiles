@@ -285,6 +285,8 @@ function vs {
     disown
 }
 
+alias fucking=sudo
+
 # Helper function for markdown for Metacom articles
 #
 # @@TODO Definitely needs hiving off
