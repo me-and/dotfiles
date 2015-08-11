@@ -1,120 +1,51 @@
+.SECONDEXPANSION :
+
 SHELL = bash
 
-DESTDIR :=  $(wildcard ~)
+SRC_PREFIX :=
+DEST_PREFIX := output/
+INSTALL_PREFIX := $(wildcard ~)/.
 
-VIMDIRS := $(addprefix vim/, ftdetect ftplugin plugin spell syntax)
-VIMFILES := $(foreach dir,$(VIMDIRS),$(wildcard $(dir)/*)) vimrc
+PROJECTS := BASH CTAGS GIT GNUPG IRSSI MINTTY MUTT PINE STARTXWIN SSH VIM
 
-BASHFILES := bash_logout bash_completion bash_profile bashrc profile
+PROJ_DIRS = $($(1)_DIRS)
+DIRS = $(foreach project,$(PROJECTS),$(call PROJ_DIRS,$(project)))
 
-IRSSIDIRS := irssi irssi/scripts/autorun
-IRSSIFILES := irssi/config $(wildcard irssi/*.theme) \
-	      $(wildcard irssi/scripts/autorun/*)
+# Simple files are those that merely need copying from the source directory to
+# the target directory.
+PROJ_SIMPLE_FILES = $($(1)_SIMPLE_FILES)
+SIMPLE_FILES = $(foreach project,$(PROJECTS),\
+			 $(call PROJ_SIMPLE_FILES,$(project)))
 
-GITFILES := gitconfig gitignore
+BASH_SIMPLE_FILES = bash_completion bash_logout bash_profile bashrc profile
 
-ALLDIRS := $(VIMDIRS) gnupg ssh $(IRSSIDIRS)
-ALLFILES := $(VIMFILES) startxwinrc ctags minttyrc $(BASHFILES) ssh/config \
-	    $(IRSSIFILES) muttrc $(GITFILES) gnupg/gpg.conf pinerc
+CTAGS_SIMPLE_FILES = ctags
 
-# Check we're not about to try to do stuff in the root directory unless we've
-# been explicitly told to do so.  Doing it silently seems like a recipe for
-# deleting things I really don't want to delete.
-ifeq (, $(DESTDIR))
-$(error DESTDIR should not be empty)
-endif
+GIT_SIMPLE_FILES = gitconfig gitignore
 
-.PHONY : all install
-all :
-install : all
+GNUPG_DIRS := gnupg
+GNUPG_SIMPLE_FILES = gnupg/gpg.conf
 
-ifneq (, $(shell type -fp vim))
-ifneq (, $(shell vim --version | grep 'Vi IMproved 7\.[34]'))
-install : install-vim
-else
-$(warning Vim is installed, but I haven't seen this version before.)
-$(warning Not installing the Vim configuration files.)
-$(warning You can install them at your own risk with `make install-vim`.)
-endif
-endif
+# @@TODO Currently this fails to pick up files using the wildcard if SRC_PREFIX
+# is not the current directory.
+IRSSI_DIRS := irssi/scripts/autorun
+IRSSI_SIMPLE_FILES = irssi/config $(wildcard irssi/*.theme) \
+	$(wildcard irssi/scripts/autorun/*.pl)
 
-ifneq (, $(shell type -fp startxwin))
-install : install-startxwin
-endif
+MINTTY_SIMPLE_FILES = minttyrc
 
-ifneq (, $(shell type -fp ctags))
-ifneq (, $(shell ctags --help | grep -e --recurse))
-install : install-ctags
-else
-$(warning Ctags is installed, but does not support recursion.)
-$(warning Not installing the Ctags configuration files.)
-endif
-endif
+MUTT_SIMPLE_FILES = muttrc
 
-ifneq (, $(shell type -fp mintty))
-install : install-mintty
-endif
+PINE_SIMPLE_FILES = pinerc
 
-ifneq (, $(shell type -fp bash))
-ifneq (, $(shell bash --version | grep -F 'version 4.'))
-install : install-bash
-else
-$(warning Bash is installed but I haven't seen this version before.)
-$(warning Not installing the Bash configuration files.)
-$(warning You can install them at your own risk with `make install-bash`.)
-endif
-endif
+STARTXWIN_SIMPLE_FILES = startxwinrc
 
-ifneq (, $(shell type -fp ssh))
-install : install-ssh
-endif
+SSH_DIRS := ssh
+SSH_SIMPLE_FILES = ssh/config
 
-ifneq (, $(shell type -fp irssi))
-install : install-irssi
-endif
+# @@TODO Currently this fails to pick up files using the wildcard if SRC_PREFIX
+# is not the current directory.
+VIM_DIRS := $(addprefix vim/,ftdetect ftplugin plugin spell syntax)
+VIM_SIMPLE_FILES = $(foreach dir,$(VIM_DIRS),$(wildcard $(dir)/*)) vimrc
 
-ifneq (, $(shell type -fp mutt))
-install : install-mutt
-endif
-
-ifneq (, $(shell type -fp git))
-ifneq (, $(shell git --version | grep -F 'git version 2.'))
-install : install-git
-else
-$(warning Git is installed but this version is either one I haven't seen \
-	  before, or one that's just plain too old.)
-$(warning Not installing the Git configuration files.)
-$(warning You can install them at your own risk with `make install-git`.)
-endif
-endif
-
-ifneq (, $(shell type -fp gpg))
-install : install-gpg
-endif
-
-ifneq (, $(shell type -fp pine))
-install : install-pine
-endif
-
-.PHONY : install-vim install-startxwin install-ctags install-mintty \
-	 install-bash install-ssh install-irssi install-mutt install-git \
-	 install-gpg install-pine
-install-vim : $(addprefix $(DESTDIR)/.,$(VIMFILES))
-install-startxwin : $(DESTDIR)/.startxwinrc
-install-ctags : $(DESTDIR)/.ctags
-install-mintty : $(DESTDIR)/.minttyrc
-install-bash : $(addprefix $(DESTDIR)/.,$(BASHFILES))
-install-ssh : $(DESTDIR)/.ssh/config
-install-irssi : $(DESTDIR)/.irssi
-install-mutt : $(DESTDIR)/.muttrc
-install-git : $(addprefix $(DESTDIR)/.,$(GITFILES))
-install-gpg : $(DESTDIR)/.gnupg/gpg.conf
-install-pine : $(DESTDIR)/.pinerc
-
-$(addprefix $(DESTDIR)/.,$(ALLDIRS)) :
-	mkdir -p $@
-
-.SECONDEXPANSION :
-$(addprefix $(DESTDIR)/.,$(ALLFILES)) : \
-		$$(patsubst $(DESTDIR)/.%,%,$$@) | $$(@D)
-	cp $< $@
+Makefile : ;
