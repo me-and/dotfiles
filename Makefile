@@ -18,6 +18,9 @@ simple_dest_files = \
 simple_install_files = \
 	$(patsubst $(SRC_PREFIX)%,$(INSTALL_PREFIX)%,$(simple_src_files))
 
+dest_files = $(simple_dest_files)
+install_files = $(simple_install_files)
+
 bash_simple_src_files = $(addprefix $(SRC_PREFIX),\
 	bash_completion bash_logout bash_profile bashrc profile)
 
