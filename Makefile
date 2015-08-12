@@ -2,7 +2,7 @@
 
 SHELL = bash
 
-SRC_PREFIX :=
+SRC_PREFIX := src/
 DEST_PREFIX := output/
 INSTALL_PREFIX := $(wildcard ~)/.
 
