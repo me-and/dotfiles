@@ -54,4 +54,9 @@ vim_simple_src_files = \
 $(sort $(dir $(dest_files) $(install_files))) :
 	mkdir -p $@
 
+# Copying simple source files into their destination location:
+$(simple_dest_files) : $$(patsubst $(DEST_PREFIX)%,$(SRC_PREFIX)%,$$@) | \
+		$$(dir $$@)
+	cp $< $@
+
 Makefile : ;
