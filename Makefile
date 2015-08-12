@@ -68,4 +68,9 @@ $(simple_dest_files) : $$(patsubst $(DEST_PREFIX)%,$(SRC_PREFIX)%,$$@) | \
 		$$(dir $$@)
 	cp $< $@
 
+# And copying compiled files into their install location:
+$(install_files) : $$(patsubst $(INSTALL_PREFIX)%,$(DEST_PREFIX)%,$$@) | \
+		$$(dir $$@)
+	cp $< $@
+
 Makefile : ;
