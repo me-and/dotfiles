@@ -13,6 +13,10 @@ PROJECTS := bash ctags git gnupg irssi mintty mutt pine startxwin ssh vim
 proj_simple_src_files = $($(1)_simple_src_files)
 simple_src_files = $(foreach project,$(PROJECTS),\
 			 $(call proj_simple_src_files,$(project)))
+simple_dest_files = \
+	$(patsubst $(SRC_PREFIX)%,$(DEST_PREFIX)%,$(simple_src_files))
+simple_install_files = \
+	$(patsubst $(SRC_PREFIX)%,$(INSTALL_PREFIX)%,$(simple_src_files))
 
 bash_simple_src_files = $(addprefix $(SRC_PREFIX),\
 	bash_completion bash_logout bash_profile bashrc profile)
