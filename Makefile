@@ -6,40 +6,40 @@ SRC_PREFIX :=
 DEST_PREFIX := output/
 INSTALL_PREFIX := $(wildcard ~)/.
 
-PROJECTS := BASH CTAGS GIT GNUPG IRSSI MINTTY MUTT PINE STARTXWIN SSH VIM
+PROJECTS := bash ctags git gnupg irssi mintty mutt pine startxwin ssh vim
 
 # Simple files are those that merely need copying from the source directory to
 # the target directory.
-PROJ_SIMPLE_FILES = $($(1)_SIMPLE_FILES)
-SIMPLE_FILES = $(foreach project,$(PROJECTS),\
-			 $(call PROJ_SIMPLE_FILES,$(project)))
+proj_simple_files = $($(1)_simple_files)
+simple_files = $(foreach project,$(PROJECTS),\
+			 $(call proj_simple_files,$(project)))
 
-BASH_SIMPLE_FILES = bash_completion bash_logout bash_profile bashrc profile
+bash_simple_files = bash_completion bash_logout bash_profile bashrc profile
 
-CTAGS_SIMPLE_FILES = ctags
+ctags_simple_files = ctags
 
-GIT_SIMPLE_FILES = gitconfig gitignore
+git_simple_files = gitconfig gitignore
 
-GNUPG_SIMPLE_FILES = gnupg/gpg.conf
+gnupg_simple_files = gnupg/gpg.conf
 
 # @@TODO Currently this fails to pick up files using the wildcard if SRC_PREFIX
 # is not the current directory.
-IRSSI_SIMPLE_FILES = irssi/config $(wildcard irssi/*.theme) \
+irssi_simple_files = irssi/config $(wildcard irssi/*.theme) \
 	$(wildcard irssi/scripts/autorun/*.pl)
 
-MINTTY_SIMPLE_FILES = minttyrc
+mintty_simple_files = minttyrc
 
-MUTT_SIMPLE_FILES = muttrc
+mutt_simple_files = muttrc
 
-PINE_SIMPLE_FILES = pinerc
+pine_simple_files = pinerc
 
-STARTXWIN_SIMPLE_FILES = startxwinrc
+startxwin_simple_files = startxwinrc
 
-SSH_SIMPLE_FILES = ssh/config
+ssh_simple_files = ssh/config
 
 # @@TODO Currently this fails to pick up files using the wildcard if SRC_PREFIX
 # is not the current directory.
-VIM_DIRS := $(addprefix vim/,ftdetect ftplugin plugin spell syntax)
-VIM_SIMPLE_FILES = $(foreach dir,$(VIM_DIRS),$(wildcard $(dir)/*)) vimrc
+vim_dirs := $(addprefix vim/,ftdetect ftplugin plugin spell syntax)
+vim_simple_files = $(foreach dir,$(vim_dirs),$(wildcard $(dir)/*)) vimrc
 
 Makefile : ;
