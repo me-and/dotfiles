@@ -50,4 +50,8 @@ vim_simple_src_files = \
 	$(wildcard $(addprefix $(SRC_PREFIX), \
 			       $(foreach dir,$(vim_dirs),$(dir)/*) vimrc))
 
+# Creating directories (use sort to remove duplicates):
+$(sort $(dir $(dest_files) $(install_files))) :
+	mkdir -p $@
+
 Makefile : ;
