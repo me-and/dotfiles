@@ -67,7 +67,7 @@ vim_simple_src_files = \
 ###############################################################################
 # Phony build targets.
 ###############################################################################
-.PHONY : all install $(PROJECTS) $(addprefix install-,$(PROJECTS))
+.PHONY : all install $(PROJECTS) $(addprefix install-,$(PROJECTS)) diff
 all : $(PROJECTS)
 install : $(addprefix install-,$(PROJECTS))
 
@@ -76,6 +76,12 @@ $(PROJECTS) : \
 $(addprefix install-,$(PROJECTS)) : \
 		$$(patsubst $(SRC_PREFIX)%,$(INSTALL_PREFIX)%, \
 			    $$($$(patsubst install-%,%,$$@)_simple_src_files))
+
+diff : all
+	@$(foreach file,$(install_files), \
+		diff -u $(patsubst $(INSTALL_PREFIX)%,$(DEST_PREFIX)%,$(file))\
+			$(file); \
+	  )
 
 ###############################################################################
 # Generic build targets.
