@@ -60,6 +60,9 @@ $(PROJECTS) : \
 $(sort $(dir $(dest_files) $(install_files))) :
 	mkdir -p $@
 
+# No need to do anything with simple source files!
+$(simple_src_files) : ;
+
 # Copying simple source files into their destination location:
 $(simple_dest_files) : $$(patsubst $(DEST_PREFIX)%,$(SRC_PREFIX)%,$$@) | \
 		$$(dir $$@)
