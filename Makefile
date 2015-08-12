@@ -14,32 +14,33 @@ proj_simple_files = $($(1)_simple_files)
 simple_files = $(foreach project,$(PROJECTS),\
 			 $(call proj_simple_files,$(project)))
 
-bash_simple_files = bash_completion bash_logout bash_profile bashrc profile
+bash_simple_files = $(addprefix $(SRC_PREFIX),\
+	bash_completion bash_logout bash_profile bashrc profile)
 
-ctags_simple_files = ctags
+ctags_simple_files = $(SRC_PREFIX)ctags
 
-git_simple_files = gitconfig gitignore
+git_simple_files = $(addprefix $(SRC_PREFIX),gitconfig gitignore)
 
-gnupg_simple_files = gnupg/gpg.conf
+gnupg_simple_files = $(SRC_PREFIX)gnupg/gpg.conf
 
-# @@TODO Currently this fails to pick up files using the wildcard if SRC_PREFIX
-# is not the current directory.
-irssi_simple_files = irssi/config $(wildcard irssi/*.theme) \
-	$(wildcard irssi/scripts/autorun/*.pl)
+irssi_simple_files = \
+	$(wildcard $(addprefix \
+		$(SRC_PREFIX),irssi/config irssi/*.theme \
+			      irssi/scripts/autorun/*.pl))
 
-mintty_simple_files = minttyrc
+mintty_simple_files = $(SRC_PREFIX)minttyrc
 
-mutt_simple_files = muttrc
+mutt_simple_files = $(SRC_PREFIX)muttrc
 
-pine_simple_files = pinerc
+pine_simple_files = $(SRC_PREFIX)pinerc
 
-startxwin_simple_files = startxwinrc
+startxwin_simple_files = $(SRC_PREFIX)startxwinrc
 
-ssh_simple_files = ssh/config
+ssh_simple_files = $(SRC_PREFIX)ssh/config
 
-# @@TODO Currently this fails to pick up files using the wildcard if SRC_PREFIX
-# is not the current directory.
 vim_dirs := $(addprefix vim/,ftdetect ftplugin plugin spell syntax)
-vim_simple_files = $(foreach dir,$(vim_dirs),$(wildcard $(dir)/*)) vimrc
+vim_simple_files = \
+	$(wildcard $(addprefix $(SRC_PREFIX), \
+			       $(foreach dir,$(vim_dirs),$(dir)/*) vimrc))
 
 Makefile : ;
