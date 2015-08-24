@@ -22,3 +22,6 @@
 [submodule "vim/bundle/ctrlpgtags"]
 	path = vim/bundle/ctrlpgtags
 	url = git@gitlab.datcon.co.uk:ctrlpgtags.git
+[submodule "vim/plugin/autocomment"]
+	path = vim/plugin/autocomment
+	url = git@gitlab.datcon.co.uk:autocomment.git
