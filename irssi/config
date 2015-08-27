@@ -333,7 +333,7 @@ settings = {
     user_name = "me_and";
     nick = "me_and";
   };
-  "fe-text" = { actlist_sort = "refnum"; };
+  "fe-text" = { actlist_sort = "refnum"; paste_detect_time = "200msecs"; };
   "irc/core" = { alternate_nick = "and_i"; };
   "fe-common/core" = {
     bell_beeps = "yes";
