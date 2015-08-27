@@ -338,6 +338,7 @@ settings = {
   "fe-common/core" = {
     bell_beeps = "yes";
     beep_msg_level = "MSGS NOTICES DCC DCCMSGS HILIGHT";
+    autolog = "yes";
   };
 };
 windows = {
