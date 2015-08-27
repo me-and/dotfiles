@@ -162,7 +162,11 @@ channels = (
   { name = "#odcfroth"; chatnet = "EsperNet"; autojoin = "yes"; },
   { name = "#empirefroth"; chatnet = "EsperNet"; autojoin = "yes"; },
   { name = "#cygwin"; chatnet = "Freenode"; autojoin = "yes"; },
-  { name = "#cygwin-developers"; chatnet = "Freenode"; autojoin = "yes"; },
+  {
+    name = "#cygwin-developers";
+    chatnet = "Freenode";
+    autojoin = "yes";
+  },
   { name = "#dreamwidth"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#dreamwidth-dev"; chatnet = "Freenode"; autojoin = "yes"; },
   {
