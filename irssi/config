@@ -163,6 +163,13 @@ channels = (
   { name = "#empirefroth"; chatnet = "EsperNet"; autojoin = "yes"; },
   { name = "#cygwin"; chatnet = "Freenode"; autojoin = "yes"; },
   { name = "#cygwin-developers"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#dreamwidth"; chatnet = "Freenode"; autojoin = "yes"; },
+  { name = "#dreamwidth-dev"; chatnet = "Freenode"; autojoin = "yes"; },
+  {
+    name = "#dreamwidth-bitch";
+    chatnet = "Freenode";
+    autojoin = "yes";
+  },
   { name = "#wikipedia-en-drn"; chatnet = "Freenode"; }
 );
 
