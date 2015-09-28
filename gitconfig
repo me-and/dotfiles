@@ -44,7 +44,7 @@
 	ita = add --intent-to-add
 	rm-cur-br = "!bash -c 'br=$(git symbolic-ref HEAD | cut -b 12-); git detach; if [[ $1 == -D ]]; then git branch -D $br; else git branch -d $br; fi' --"
 	sth = status -- .
-	db = !bash -c '[[ $1 ]] && git config --get branch.\"$1\".description || git config --get branch.\"$(git rev-parse --abbrev-ref HEAD)\".description' --
+	db = "!bash -c '[[ $1 ]] && branch_name=$1 || branch_name=$(git rev-parse --abbrev-ref HEAD); git config --get branch.\"$branch_name\".description' --"
 	sdb = !bash -c 'git config branch.\"$(git rev-parse --abbrev-ref HEAD)\".description \"$@\"' --
 	detach = checkout --detach
 
