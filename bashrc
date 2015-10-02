@@ -20,6 +20,9 @@ if [[ -z $BASH_COMPLETION && -r /usr/local/etc/bash_completion ]] &&
     . /usr/local/etc/bash_completion
 fi
 
+# Enable fzf.
+[[ -f ~/.fzf.bash ]] && . ~/.fzf.bash
+
 # Append to the history file rather than overwriting it.
 shopt -s histappend
 
