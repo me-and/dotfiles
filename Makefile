@@ -79,8 +79,8 @@ $(addprefix install-,$(PROJECTS)) : \
 
 diff : all
 	@$(foreach file,$(install_files), \
-		diff -u $(patsubst $(INSTALL_PREFIX)%,$(DEST_PREFIX)%,$(file))\
-			$(file); \
+		diff -u $(file) \
+		$(patsubst $(INSTALL_PREFIX)%,$(DEST_PREFIX)%,$(file)); \
 	  )
 
 ###############################################################################
