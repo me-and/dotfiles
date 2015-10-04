@@ -44,7 +44,7 @@
 	ita = add --intent-to-add
 	rm-cur-br = "!bash -c 'br=$(git symbolic-ref HEAD | cut -b 12-); git detach; if [[ $1 == -D ]]; then git branch -D $br; else git branch -d $br; fi' --"
 	sth = status -- .
-	db = !bash -c '[[ $1 ]] && git config --get branch.\"$1\".description || git config --get branch.\"$(git rev-parse --abbrev-ref HEAD)\".description' --
+	db = "!bash -c '[[ $1 ]] && branch_name=$1 || branch_name=$(git rev-parse --abbrev-ref HEAD); git config --get branch.\"$branch_name\".description' --"
 	sdb = !bash -c 'git config branch.\"$(git rev-parse --abbrev-ref HEAD)\".description \"$@\"' --
 	detach = checkout --detach
 
@@ -57,13 +57,13 @@
 	lolas = "!f() { git log --graph --decorate --pretty=oneline --abbrev-commit --all --date-order $(git stash list | sed -r 's/(stash@\\{[0-9]+\\}):.*$/\\1/');}; f"
 
 	# Repository information
-	list-all-objs = "!f() { { git rev-list --objects --all; git rev-list --objects -g --no-walk --all; git rev-list --objects --no-walk $(git fsck --unreachable | grep '^unreachable commit' | cut -d' ' -f3);} | cut -d' ' -f1 | sort | uniq;}; f"
+	list-all-objs = "!f() { { git rev-list --objects --all; git rev-list --objects -g --no-walk --all; git rev-list --objects --no-walk $(git fsck --unreachable | grep '^unreachable commit' | cut -d' ' -f3);} | cut -d' ' -f1 | sort -u;}; f"
 	roots = "!f() { git rev-list --parents \"$@\" | grep -E \"^[a-f0-9]{40}$\";}; f"
 
 	# Subversion shortcuts
 	sci = svn dcommit
 	sreb = svn rebase
-	rev-to-hash = "!bash -c 'while getopts b: opt; do case $opt in b) branch=$OPTARG;; esac; done; shift $((OPTIND - 1)); while (( $# > 0 )); do count=0; for r in $(git svn find-rev r$1 $branch); do if [[ $r == +([0-9a-f]) ]]; then (( count++ )); echo $r; fi; done; if (( count != 1 )); then echo \"Caution: found $count commits for r$1\" >&2; fi; shift; done' --"
+	rev-to-hash = "!bash -c 'while getopts b: opt; do case $opt in b) branch=$OPTARG;; esac; done; shift $((OPTIND - 1)); while (( $# > 0 )); do count=0; for r in $(git svn find-rev r$1 $branch | sed -nr '/^[0-9a-f]{40}$/p'); do (( count++ )); echo $r; done; if (( count != 1 )); then echo \"Caution: found $count commits for r$1\" >&2; fi; shift; done' --"
 
 	# Fancy checkouts
 	upout = !bash -c 'git checkout \"$@\" && git svn rebase' --
