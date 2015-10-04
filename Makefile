@@ -67,7 +67,8 @@ vim_simple_src_files = \
 ###############################################################################
 # Phony build targets.
 ###############################################################################
-.PHONY : all install $(PROJECTS) $(addprefix install-,$(PROJECTS)) diff
+.PHONY : all install $(PROJECTS) $(addprefix install-,$(PROJECTS)) \
+	diff $(addprefix diff-,$(PROJECTS))
 all : $(PROJECTS)
 install : $(addprefix install-,$(PROJECTS))
 
@@ -77,11 +78,13 @@ $(addprefix install-,$(PROJECTS)) : \
 		$$(patsubst $(SRC_PREFIX)%,$(INSTALL_PREFIX)%, \
 			    $$($$(patsubst install-%,%,$$@)_simple_src_files))
 
-diff : all
-	@$(foreach file,$(install_files), \
-		diff -u $(file) \
-		$(patsubst $(INSTALL_PREFIX)%,$(DEST_PREFIX)%,$(file)); \
-	  )
+diff : $(addprefix diff-,$(PROJECTS))
+$(addprefix diff-,$(PROJECTS)) : \
+		$$(patsubst $(SRC_PREFIX)%,$(DEST_PREFIX)%, \
+			    $$($$(patsubst diff-%,%,$$@)_simple_src_files))
+	@$(foreach file,$($(patsubst diff-%,%,$@)_simple_src_files), \
+		diff -u $(patsubst $(SRC_PREFIX)%,$(INSTALL_PREFIX)%,$(file)) \
+		        $(patsubst $(SRC_PREFIX)%,$(DEST_PREFIX)%,$(file)) ;)
 
 ###############################################################################
 # Generic build targets.
