@@ -70,10 +70,10 @@ vim_simple_src_files = \
 .PHONY : all install $(PROJECTS) $(addprefix install-,$(PROJECTS)) \
 	diff $(addprefix diff-,$(PROJECTS))
 all : $(PROJECTS)
-install : $(addprefix install-,$(PROJECTS))
-
 $(PROJECTS) : \
 	$$(patsubst $(SRC_PREFIX)%,$(DEST_PREFIX)%,$$($$@_simple_src_files))
+
+install : $(addprefix install-,$(PROJECTS))
 $(addprefix install-,$(PROJECTS)) : \
 		$$(patsubst $(SRC_PREFIX)%,$(INSTALL_PREFIX)%, \
 			    $$($$(patsubst install-%,%,$$@)_simple_src_files))
