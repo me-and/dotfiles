@@ -78,13 +78,17 @@ $(addprefix install-,$(PROJECTS)) : \
 		$$(patsubst $(SRC_PREFIX)%,$(INSTALL_PREFIX)%, \
 			    $$($$(patsubst install-%,%,$$@)_simple_src_files))
 
+# The diff command uses a return code of 0 or 1 to state whether there was a
+# difference, so treat both those return codes as 0.  Anything else does still
+# mean an error.
 diff : $(addprefix diff-,$(PROJECTS))
 $(addprefix diff-,$(PROJECTS)) : \
 		$$(patsubst $(SRC_PREFIX)%,$(DEST_PREFIX)%, \
 			    $$($$(patsubst diff-%,%,$$@)_simple_src_files))
 	@$(foreach file,$($(patsubst diff-%,%,$@)_simple_src_files), \
 		diff -u $(patsubst $(SRC_PREFIX)%,$(INSTALL_PREFIX)%,$(file)) \
-		        $(patsubst $(SRC_PREFIX)%,$(DEST_PREFIX)%,$(file)) ;)
+		        $(patsubst $(SRC_PREFIX)%,$(DEST_PREFIX)%,$(file)); \
+		(( $$? == 0 || $$? == 1 )) ;)
 
 ###############################################################################
 # Generic build targets.
