@@ -257,7 +257,7 @@ function cdis {
         echo Incorrect number of arguments >&2
         return 1
     fi
-    cd ~/issues/issue"$1"
+    cd ~/diags/issues/issue"$1"
 }
 
 function cdsf {
@@ -265,7 +265,7 @@ function cdsf {
         echo Incorrect number of arguments >&2
         return 1
     fi
-    cd ~/sfrs/sfr"$1"
+    cd ~/diags/sfrs/sfr"$1"
 }
 
 
