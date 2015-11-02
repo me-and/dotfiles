@@ -319,8 +319,10 @@ if [[ $(hostname) == PC5175 ]]; then
         # Security hole here between creating the ssh-agent file and chmodding
         # it; can maybe be fixed with a user mask?  I've never played with
         # those...
+        ssh-agent | sed 's/^echo/#echo/' >~/.ssh/ssh-agent
         chmod 600 ~/.ssh/ssh-agent
         . ~/.ssh/ssh-agent
+        ssh-add
     }
     if [[ -r ~/.ssh/ssh-agent ]]; then
         . ~/.ssh/ssh-agent
