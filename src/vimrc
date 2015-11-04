@@ -92,5 +92,6 @@ vnoremap <silent> # :<C-U>
   \escape(@", '?\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
-" Add fzf to the runtime path.
+" Add fzf to the runtime path (Only makes a difference on OS X, as this is
+" where Homebrew installs fzf).
 set rtp+=/usr/local/opt/fzf
