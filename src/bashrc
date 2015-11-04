@@ -232,12 +232,12 @@ function ssh-cp-connect {
 # Function for quick creation of an issue or SFR directory
 #
 # @@TODO Should definitely be hived off
-function create_issue_dir {
+function cid {
     mkdir -p ~/isslocal/issue$1
     cd ~/isslocal/issue$1
     [[ -e issue$1 ]] || ln -s ~/diags/issues/issue$1
 }
-function create_sfr_dir {
+function csd {
     mkdir -p ~/sfrlocal/sfr$1
     cd ~/sfrlocal/sfr$1
     [[ -e sfr$1 ]] || ln -s ~/diags/sfrs/sfr$1
