@@ -235,12 +235,12 @@ function ssh-cp-connect {
 function create_issue_dir {
     mkdir -p ~/isslocal/issue$1
     cd ~/isslocal/issue$1
-    [[ -e issue$1 ]] || ln -s ~/issues/issue$1
+    [[ -e issue$1 ]] || ln -s ~/diags/issues/issue$1
 }
 function create_sfr_dir {
     mkdir -p ~/sfrlocal/sfr$1
     cd ~/sfrlocal/sfr$1
-    [[ -e sfr$1 ]] || ln -s ~/sfrs/sfr$1
+    [[ -e sfr$1 ]] || ln -s ~/diags/sfrs/sfr$1
 }
 function unpack_diags {
     while (( $# > 0 )); do
