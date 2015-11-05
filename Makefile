@@ -14,7 +14,8 @@ INSTALL_PREFIX := $(wildcard ~)/.
 ###############################################################################
 # General project information.
 ###############################################################################
-PROJECTS := bash ctags git gnupg irssi mintty mutt pine startxwin ssh vim
+PROJECTS := bash cygport ctags git gnupg irssi mintty mutt pine startxwin ssh \
+	vim
 
 ###############################################################################
 # Collating file information for all files.
@@ -39,6 +40,8 @@ bash_simple_src_files = $(addprefix $(SRC_PREFIX),\
 	bash_completion bash_logout bash_profile bashrc profile)
 
 ctags_simple_src_files = $(SRC_PREFIX)ctags
+
+cygport_simple_src_files = $(SRC_PREFIX)cygport.conf
 
 git_simple_src_files = $(addprefix $(SRC_PREFIX),gitconfig gitignore)
 
