@@ -1,0 +1,2 @@
+GITLAB_GIT_DIR=/export/home/build/git-pkg-mng
+GITLAB_BIN_DIR=/export/home/build/bin
