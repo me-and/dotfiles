@@ -1,0 +1,7 @@
+[user]
+	name = Adam Dinwoodie
+	email = adam@dinwoodie.org
+[push]
+	default = simple
+[url "git@github.com:"]
+	pushInsteadOf = git://github.com/
