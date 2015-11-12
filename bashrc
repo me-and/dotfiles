@@ -152,6 +152,11 @@ set_terminal_title () {
     echo -e '\e]0;'"$@"'\a'
 }
 
+# Set the title now to something recognisable.  This is particularly useful to
+# allow KeePass to recognize the window so it can automatically enter
+# passphrases before the first prompt is shown.
+set_terminal_title "$(hostname):"
+
 # Colours for ls
 if [[ -x /usr/bin/dircolors ]]; then
     if [[ -r ~/.dircolors ]]; then
