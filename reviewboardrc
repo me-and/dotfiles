@@ -1,0 +1,5 @@
+REPOSITORY = "sbc"
+REVIEWBOARD_URL = "http://flash/reviewboard"
+OPEN_BROWSER = True
+USERNAME = "add"
+PASSWORD = "0s1N8oDl@dR>d_NHu'-M6'Y<`&zb#n6JX|,:"
