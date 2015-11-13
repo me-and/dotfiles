@@ -95,3 +95,10 @@ vnoremap <silent> # :<C-U>
 " Add fzf to the runtime path (Only makes a difference on OS X, as this is
 " where Homebrew installs fzf).
 set rtp+=/usr/local/opt/fzf
+
+" Store state when exiting Vim:
+" - ' = marks for previously edited files
+" - " = lines for each register
+" - : = lines of command-line history
+" - % = the buffer list
+set viminfo='100,\"100,:100,%
